@@ -6,12 +6,10 @@ if (strtolower($keywords) == strtolower(Maryland)) {
 	$keywords = "MD";
 }
 
-	$fetch = mysql_query("SELECT * FROM stores where 
-						 address like '%" . $keywords . "%' 
-						 or city like '%" . $keywords . "%'
-						 or state like '%" . $keywords . "%' 
-						 or postal like '%" . $keywords . "%' 
-						 or country like '%" . $keywords . "%'"); 
+/* Usage http://maxihealth.com/ajax/stores-locator2.json?location=avenue u */
+
+	$fetch = mysql_query("SELECT id, name, address, address2, city, state, postal, country, phone, url, lat, lng, CONCAT(address, city) AS combinedaddress 
+						 WHERE combinedaddress like '%" . $keywords . "%'"); 
 
 	/* Retrieve and store in array the results of the query.*/
 	while ($row = mysql_fetch_array($fetch, MYSQL_ASSOC)) {
