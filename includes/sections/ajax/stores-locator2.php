@@ -13,12 +13,7 @@ if (strtolower($keywords) == strtolower(Maryland)) {
 						WHERE MATCH(address, city) AGAINST ('" . $keywords . "' IN BOOLEAN MODE)"); */
 	$fetch = mysql_query("SELECT *
 						FROM stores 
-  WHERE CONCAT(address, ' ', city) LIKE '" . $keywords . "'
-OR address like '%" . $keywords . "%' 
-OR city like '%" . $keywords . "%'
-OR state like '%" . $keywords . "%' 
-OR postal like '%" . $keywords . "%' 
-OR country like '%" . $keywords . "%'"); 
+WHERE city REGEXP 'brooklyn$'"); 
 	
 /*WHERE combinedaddress like '%" . $keywords . "%'"); */
 
