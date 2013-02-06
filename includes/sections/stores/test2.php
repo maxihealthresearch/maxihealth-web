@@ -6,7 +6,6 @@ $_PAGE['drop-left-menu'] = true;
 
 $_PAGE['scripts'][] = 'http://maps.google.com/maps/api/js?key=AIzaSyBFP46Ctp5dH8FVmuzGtVsNDm-KtmPJhmc&sensor=false&v=3.8';
 
-/*$_PAGE['scripts'][] = '/js/mapinit.js?dateStamp=3' . time(); */
 $_PAGE['scripts'][] = '/js/stores-locator2.js?dateStamp=3' . time();
 
 ?>

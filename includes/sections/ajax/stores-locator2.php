@@ -8,14 +8,11 @@ if (strtolower($keywords) == strtolower(Maryland)) {
 
 /* Usage http://maxihealth.com/ajax/stores-locator2.json?location=avenue u */
 
-/*	$fetch = mysql_query("SELECT *
-						FROM stores 
-						WHERE MATCH(address, city) AGAINST ('" . $keywords . "' IN BOOLEAN MODE)"); */
+	
 	$fetch = mysql_query("SELECT *
 						FROM stores 
-WHERE city REGEXP 'brooklyn$'"); 
-	
-/*WHERE combinedaddress like '%" . $keywords . "%'"); */
+WHERE CONCAT_WS(', ',address, city, state, postal, country) LIKE '%$keywords%'
+OR CONCAT_WS(' ',address, city, state, postal, country) LIKE '%$keywords%'");
 
 	/* Retrieve and store in array the results of the query.*/
 	while ($row = mysql_fetch_array($fetch, MYSQL_ASSOC)) {
