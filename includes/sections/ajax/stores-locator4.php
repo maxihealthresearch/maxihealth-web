@@ -27,15 +27,20 @@ OR CONCAT_WS(' ',address, city, state, postal, country) LIKE '%$keywords%'");
 	/* Retrieve and store in array the results of the query.*/
 	while ($row = mysql_fetch_array($fetch, MYSQL_ASSOC)) {
 	        $row_array['id'] = $row['id'];
-	        $row_array['name'] = $row['name'];
-	        $row_array['address'] = $row['address'];
-	        $row_array['address2'] = $row['address2'];
-	        $row_array['city'] = $row['city'];
-	        $row_array['state'] = $row['state'];
-	        $row_array['postal'] = $row['postal'];
+	        $row_array['name'] = trim($row['name']);
+	        $row_array['address'] = trim($row['address']);
+	        $row_array['address2'] = trim($row['address2']);
+	        $row_array['city'] = trim($row['city']);
+	        $row_array['state'] = trim($row['state']);
+	        $row_array['postal'] = trim($row['postal']);
 	        $row_array['country'] = $row['country'];
-	        $row_array['phone'] = $row['phone'];
-	        $row_array['url'] = $row['url'];
+if ($row['country'] == "United States") {
+	        $row_array['usa'] = true;
+} else {
+	        $row_array['usa'] = false;	
+}
+	        $row_array['phone'] = trim($row['phone']);
+	        $row_array['url'] = trim($row['url']);
 	        $row_array['lat'] = $row['lat'];
 	        $row_array['lng'] = $row['lng'];
 
@@ -67,15 +72,20 @@ $commaList = implode(', ', $exclude_ids);
 	/* Retrieve and store in array the results of the query.*/
 	while ($row2 = mysql_fetch_array($fetch2, MYSQL_ASSOC)) {
 	        $row_array2['id'] = $row2['id'];
-	        $row_array2['name'] = $row2['name'];
-	        $row_array2['address'] = $row2['address'];
-	        $row_array2['address2'] = $row2['address2'];
-	        $row_array2['city'] = $row2['city'];
-	        $row_array2['state'] = $row2['state'];
-	        $row_array2['postal'] = $row2['postal'];
+	        $row_array2['name'] = trim($row2['name']);
+	        $row_array2['address'] = trim($row2['address']);
+	        $row_array2['address2'] = trim($row2['address2']);
+	        $row_array2['city'] = trim($row2['city']);
+	        $row_array2['state'] = trim($row2['state']);
+	        $row_array2['postal'] = trim($row2['postal']);
 	        $row_array2['country'] = $row2['country'];
-	        $row_array2['phone'] = $row2['phone'];
-	        $row_array2['url'] = $row2['url'];
+if ($row2['country'] == "United States") {
+	        $row_array2['usa'] = true;
+} else {
+	        $row_array2['usa'] = false;	
+}
+	        $row_array2['phone'] = trim($row2['phone']);
+	        $row_array2['url'] = trim($row2['url']);
 	        $row_array2['lat'] = $row2['lat'];
 	        $row_array2['lng'] = $row2['lng'];
 	        $row_array2['distance'] = $row2['distance'];

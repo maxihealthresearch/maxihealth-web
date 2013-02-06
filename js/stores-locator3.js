@@ -1,57 +1,27 @@
 jQuery.noConflict();
 
-function mapinit() {
-	var address = "1309 Avenue U, Brooklyn, NY";
-	geocoder = new google.maps.Geocoder();
 
-	geocoder.geocode( { 'address': address}, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-
-			var myOptions = {
-				zoom: 15,
-				center: results[0].geometry.location,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-
-			var marker = new google.maps.Marker({
-				map: map, 
-				position: results[0].geometry.location
-			});
-		} else {
-			alert("Geocode was not successful for the following reason: " + status);
-		}
-	});
+function showMap(lat, lng) {
+	var latlng = new google.maps.LatLng(lat, lng);
+	var myOptions = {
+		zoom: 15,
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
 	
-}
-
-function showMap(address) {
-	geocoder = new google.maps.Geocoder();
-
-	geocoder.geocode( { 'address': address}, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-
-			var myOptions = {
-				zoom: 15,
-				center: results[0].geometry.location,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-
-			var marker = new google.maps.Marker({
-				map: map, 
-				position: results[0].geometry.location
-			});
-		} else {
-			alert("Geocode was not successful for the following reason: " + status);
-		}
-	});
+					var marker = new google.maps.Marker({
+						map: map, 
+						position: latlng
+					});
+	
 }
 
 // Put all your jquery code in your document ready area to avoid conflict with prototype
 jQuery(document).ready(function($) {
 
-mapinit();
+//initial location is main store - 1305 Avenue U, Brooklyn
+showMap(40.598903, -73.957932);
 
 //this function displays list of stores using inputs(search) parameter
 var outputStores = function(inputs) {
