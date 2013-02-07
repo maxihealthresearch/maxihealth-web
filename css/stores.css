@@ -1,0 +1,10 @@
+.stores_locations_body #stores_list {width:228px;float:left;height:440px;overflow-y:auto; padding:10px 0 0 0;}
+#stores_list .selected {
+    background: white;
+    border: #999 solid 1px;
+    padding: 10px;
+}
+#stores_list .stores-found h2, #stores_list .stores-found p {padding-left:10px}
+#stores_list h2 {margin-bottom:0} 
+#stores_list .nearby-title {padding-top:15px} 
+#stores_list .stores-found p {margin:5px 0 10px 0;}
