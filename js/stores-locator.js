@@ -1,287 +1,87 @@
-//Script created by Kalman's team.
-//Dmitry's edited on 12-22-2012
-var Locator = {
+jQuery.noConflict();
 
-	init: function () {
 
-		var mapOptions = {
-
-			zoom: 3,
-
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-
-			center: new google.maps.LatLng (40.178873, -96.723633)
-
-		};
-
-		this.map = new google.maps.Map($('map_canvas'), mapOptions);
-
-		google.maps.event.addListener(this.map, 'bounds_changed', this.updateStoresListDelayed.bind(this));
-
-		
-
-		this.browserSupportsGeolocation = false;
-
-		if(navigator.geolocation) {
-
-			this.browserSupportsGeolocation = true;
-
-			navigator.geolocation.getCurrentPosition(this.onSensorGeolocation.bind(this, 1), this.onSensorGeolocationFailed.bind(this));
-
-		} else if (google.gears) { 		  // Try Google Gears Geolocation
-
-			this.browserSupportsGeolocation = true;
-
-			var geo = google.gears.factory.create('beta.geolocation');
-
-			geo.getCurrentPosition(this.onSensorGeolocation.bind(this, 2), this.onSensorGeolocationFailed.bind(this));
-
-		} else {		// Browser doesn't support Geolocation
-
-		}
-
-		
-
-		this._updateStoresList = this.updateStoresList.bind(this);
-
-		
-
-		this.storesListElement = $('stores_list');
-
-		
-
-		new Ajax.Request ('/ajax/stores-locator.json', {
-
-			onSuccess: this.onStoresReceived.bind(this),
-
-			evalJSON: true
-
-		});
-
-		
-
-		this.geocoder = new google.maps.Geocoder();
-
-		this._onGeocoderUpdated = this.onGeocoderUpdated.bind(this);
-
-		
-
-		this.searchLocationForm = $('search_location_form');
-
-		this.searchLocationInput = $('zip_search_input');
-
-		this.searchLocationForm.observe('submit', this.onFormSubmit.bindAsEventListener(this));
-
-	},
-
+function showMap(lat, lng) {
+	var latlng = new google.maps.LatLng(lat, lng);
+	var myOptions = {
+		zoom: 15,
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
 	
-
-	onSensorGeolocation: function (type, position) {
-
-		var location;
-
-		if (type == 1) {
-
-			location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-		} else {
-
-			location = new google.maps.LatLng(position.latitude, position.longitude);
-
-		}
-
-		// determine if there is a nearby store
-
-		var nearbyStore = false;
-
-		for (var i = 0; i < this.storesMarkers.length; i ++) {
-
-			var dist = google.maps.geometry.spherical.computeDistanceBetween(location, this.storesMarkers.getPosition());
-
-			if (dist < 50000) { // 50 kilometers
-
-				nearbyStore = true;
-
-			}
-
-		}
-
-		if (nearbyStore) {
-
-			this.map.setCenter(location);
-
-			this.map.setZoom(11);
-
-		} // else the map remains centere over all of USA
-
-		
-
-	},
-
+					var marker = new google.maps.Marker({
+						map: map, 
+						position: latlng
+					});
 	
+}
 
-	onSensorGeolocationFailed: function () {
+// Put all your jquery code in your document ready area to avoid conflict with prototype
+jQuery(document).ready(function($) {
 
-		// nothing to do here really
+//initial location is main store - 1305 Avenue U, Brooklyn
+showMap(40.598903, -73.957932);
 
-	},
+//this function displays list of stores using inputs(search) parameter
+var outputStores = function(inputs) {
 
-	onStoresReceived: function (ajaxTransport) {
+		var jqxhr = $.getJSON("http://maxihealth.com/ajax/stores-locator4.json", {
+			location: inputs
+		}, function(data) {
 
-		this.storesData = ajaxTransport.responseJSON;
+// if stores found then execute this code block
+if (data.total_target_stores > 0) {
 
-		this.storesMarkers = new Array();
+//hide error message if it pops
+$('.stores_locations_body .msg_error').hide();
 
-		for (var i = 0, c = this.storesData.length; i < c; i ++) {
+// Display number of stores found
+$('.stores-found h2 span').prepend(data.total_target_stores);
 
-			var marker = new google.maps.Marker ({
+//use mustache.js to display all found stores
+    var template = $('#listTpl').html();
+    var html = Mustache.to_html(template, data);
+    $('#stores_list').html(html);
+//
 
-				map: this.map,
+if (data.nearby_stores.length > 0) {
 
-				position: new google.maps.LatLng(this.storesData[i].lat, this.storesData[i].lng)
+//if nearby stores are found then display nearby title
+	$('.nearby-title').show();
+}
 
-			});
-
-			google.maps.event.addListener(marker, 'click', this.onMarkerClick.bind(this, i));
-
-			this.storesMarkers.push(marker);
-
-		}
-
-		
-
-		this.infoWindow = new google.maps.InfoWindow({
-
-		    content: ''
-
-		});
-
-	},
-
-	onMarkerClick: function (index) {
-
-		this.infoWindow.setContent(this.storesData[index].name + '<br>' + this.storesData[index].postal + '<br>' + this.storesData[index].text);
-
-		this.infoWindow.open(this.map, this.storesMarkers[index]);
-
-	},
-
-	updateStoresListDelayed: function () {
-
-		if (this.uslTimer)
-
-			clearTimeout(this.uslTimer);
-
-		
-
-		this.uslTimer = setTimeout(this._updateStoresList, 500);
-
-	},
-
-	updateStoresList: function () {
-
-		this.storesListElement.innerHTML = '';
-
-		var bounds = this.map.getBounds();
-
-		
-
-		var found = false;
-
-		tmp = '';
-
-		for (var i = 0, c = this.storesMarkers.length; i < c; i ++) {
-
-			if (bounds.contains(this.storesMarkers[i].getPosition())) {
-
-				tmp += '<p class="store"><a href="#" onclick="Locator.focusStore(' + i + '); return false;">';
-				if (this.storesData[i].text === "") {
-				tmp += this.storesData[i].name + '</a><br>' + this.storesData[i].address + '<br>' + this.storesData[i].city + ', ' + this.storesData[i].state + ' ' + this.storesData[i].postal;
-				
-				if (this.storesData[i].country !== "United States") {
-				tmp += '<br>' + this.storesData[i].country;
-				}
-
-				if (this.storesData[i].phone !== "") {
-				tmp += '<br>' + this.storesData[i].phone;
-				}
-				
-				if (this.storesData[i].url !== "") {
-				tmp += '<br><a href="' + this.storesData[i].url + '" target="_blank">Visit Website</a>';
-				}
-				
-				} else {
-				tmp += this.storesData[i].text ;	
-				}
-				tmp += '</p>';
-
-
-				found = true;
-
-			}
-
-		}
-
-		this.storesListElement.innerHTML = tmp;
-
-		if (!found) {
-
-			this.storesListElement.innerHTML = '<div class="none">' +
-
-					'We are sorry but there are no stores in the selected area that offer our products!' +
-
-				'</div>';
-
-		}
-
-	},
-
-	
-
-	onFormSubmit: function (event) {
-
-		Event.stop(event);
-
-		var addr = this.searchLocationInput.value;
-
-		if (!addr)
-
-			return;
-
-		this.geocoder.geocode({'address': addr}, this._onGeocoderUpdated);
-
-	},
-
-	onGeocoderUpdated: function(results, status) {
-
-		if (status == google.maps.GeocoderStatus.OK) {
-
-			//marker.setPosition(results[0].geometry.location);
-
-			this.map.fitBounds(results[0].geometry.viewport);
-
-		} else {
-
-			alert("Could not find the specified address! Sorry");
-
-		}
-
-	},
-
-	focusStore: function (index) {
-
-		this.map.setCenter(this.storesMarkers[index].getPosition());
-
-		this.map.setZoom(15);
-
-		this.infoWindow.setContent (this.storesData[index].name + '<br>' + this.storesData[index].postal + '<br>' + this.storesData[index].text);
-
-		this.infoWindow.open (this.map, this.storesMarkers[index]);
-
+	} else {
+	//Display message if 0 stores found
+	$('#stores_list').empty();
+	$('.stores_locations_body .msg_error').show();
 	}
-
+			
+		}).error(function() {
+			alert("Error connecting to Maxihealth stores database");
+		});
+	
 }
 
 
+//When page loads initially it displays default location
+outputStores('1309 Avenue U');
 
-Event.observe(window, 'load', Locator.init.bind(Locator));
+$('#search_location_form').submit(function(evt) {
+		evt.preventDefault();
+
+		var inputs = $('#location').val();
+outputStores(inputs);
+
+	});
+
+
+
+////////////////////////////////////////////////////
+///Fix code below to add 'selected' class to 'p' tag when you click on  
+/*
+$('.store-name').click(function() {  //use a class, since your ID gets mangled
+    $(this).parent().addClass("selected");      //add the class to the clicked element
+  });
+*/
+});
