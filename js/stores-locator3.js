@@ -76,4 +76,12 @@ outputStores(inputs);
 	});
 
 
+
+////////////////////////////////////////////////////
+///Fix code below to add 'selected' class to 'p' tag when you click on  
+/*
+$('.store-name').click(function() {  //use a class, since your ID gets mangled
+    $(this).parent().addClass("selected");      //add the class to the clicked element
+  });
+*/
 });

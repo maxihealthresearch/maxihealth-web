@@ -11,7 +11,7 @@ $_PAGE['scripts'][] = '/js/stores-locator3.js?dateStamp=' . time();
 $_PAGE['scripts'][] = '/js/mustache.js';
 
 ?>
-
+<link rel="stylesheet" href="/css/stores.css?dateStamp=<?php time()?>" media="screen">
 
 <div id="body" class="noleftmenu stores_locations_body">
 
@@ -47,32 +47,30 @@ Check out our great line of products up close at a retailer near you.</p>
 		<h2><span>{{total_target_stores}}</span> stores found</h2>
 
 {{#target_stores}}
-	<div>
-	<a href="#" onclick="showMap({{lat}}, {{lng}});return false">{{{name}}}</a><br>
+	<p>
+	<a href="#" class="store-name" onclick="showMap({{lat}}, {{lng}});return false">{{{name}}}</a><br>
 	{{{address}}}<br>
 	{{#address2}}{{address2}}<br>{{/address2}}
 	{{{city}}}, {{#state}}{{state}}, {{/state}}{{{postal}}}<br>
 {{^usa}}{{{country}}}<br>{{/usa}}
 	{{{phone}}}
 {{#url}}<br><a href="{{{url}}}" target="_blank">visit website</a>{{/url}}
-	</div>
-	<br>
+	</p>
 {{/target_stores}}
 
 
 
 <h2 class="nearby-title" style="display:none">Other stores nearby</h2>
 {{#nearby_stores}}
-	<div>
-	<a href="#" onclick="showMap({{lat}}, {{lng}});return false">{{{name}}}</a><br>
+	<p>
+	<a href="#" class="store-name" onclick="showMap({{lat}}, {{lng}});return false">{{{name}}}</a><br>
 	{{{address}}}<br>
 	{{#address2}}{{address2}}<br>{{/address2}}
 	{{{city}}}, {{#state}}{{state}}, {{/state}}{{{postal}}}<br>
 {{^usa}}{{{country}}}<br>{{/usa}}
 	{{{phone}}}
 {{#url}}<br><a href="{{{url}}}" target="_blank">visit website</a>{{/url}}
-	</div>
-	<br>
+	</p>
 {{/nearby_stores}}
 
 </div>{{! end of stores-found div }}

@@ -9,17 +9,29 @@ $exclude_ids = array();
 
 $keywords = trim($_GET['location']); // grab keyword that user searches
 
-//Get a list of states from database. If user searches "Maryland" it will search database for "MD"
-if (strtolower($keywords) == strtolower(Maryland)) {
-	$keywords = "MD";
+
+//Get a list of states from database. If user searches "California" it will search database for "MD"
+
+$fetchstate = mysql_query("SELECT state_code, state_name FROM states ORDER BY state_code");
+
+while($staterow = mysql_fetch_array($fetchstate)) {
+
+if (strtolower($keywords) == strtolower($staterow['state_name'])) {
+	$keywords =  $staterow['state_code'] . " united states";
 }
+
+}
+
+//
+
 
 
 	
 	$fetch = mysql_query("SELECT *
 						FROM stores 
 WHERE CONCAT_WS(', ',address, city, state, postal, country) LIKE '%$keywords%'
-OR CONCAT_WS(' ',address, city, state, postal, country) LIKE '%$keywords%'");
+OR CONCAT_WS(' ',address, city, state, postal, country) LIKE '%$keywords%' 
+OR CONCAT_WS(' ',state, country) LIKE '%$keywords%'");
 
 	
 
