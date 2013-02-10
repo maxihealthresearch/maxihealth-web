@@ -26,7 +26,7 @@ showMap(40.598903, -73.957932);
 //this function displays list of stores using inputs(search) parameter
 var outputStores = function(inputs) {
 
-		var jqxhr = $.getJSON("http://maxihealth.com/ajax/stores-locator4.json", {
+		var jqxhr = $.getJSON("/ajax/stores-locator4.json", {
 			location: inputs
 		}, function(data) {
 
