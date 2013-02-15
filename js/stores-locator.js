@@ -65,7 +65,7 @@ if (data.nearby_stores.length > 0) {
 
 
 //When page loads initially it displays default location
-outputStores('1309 Avenue U');
+outputStores('United States');
 
 $('#search_location_form').submit(function(evt) {
 		evt.preventDefault();
