@@ -6,7 +6,9 @@ $_PAGE['drop-left-menu'] = true;
 
 $_PAGE['scripts'][] = 'http://maps.google.com/maps/api/js?key=AIzaSyBFP46Ctp5dH8FVmuzGtVsNDm-KtmPJhmc&sensor=false&v=3.8';
 
-$_PAGE['scripts'][] = '/js/stores-locator.js?dateStamp=' . time();
+$_PAGE['scripts'][] = '/js/jquery.mockjax.js';
+
+$_PAGE['scripts'][] = '/js/stores-locator-test.js';
 
 $_PAGE['scripts'][] = '/js/mustache.js';
 
@@ -34,13 +36,26 @@ Check out our great line of products up close at a retailer near you.</p>
 
 	<div id="stores_locator">
 
-		<div id="stores_list"></div>
+		<div id="stores_list"><img src="/images/spinner.gif" alt="loading..."></div>
 
-		<div id="map_canvas"></div>
+		<div id="map_canvas"><img src="/images/spinner.gif" alt="loading..."></div>
 
 	</div>
 
 </div>
+<script id="infowindow" type="text/template">
+{{#target_stores}}
+	<p>
+	<strong>{{{name}}}</strong><br>
+	{{{address}}}<br>
+	{{#address2}}{{address2}}<br>{{/address2}}
+	{{{city}}}, {{#state}}{{state}}, {{/state}}{{{postal}}}<br>
+{{^usa}}{{{country}}}<br>{{/usa}}
+	{{{phone}}}
+{{#url}}<br><a href="{{{url}}}" target="_blank">visit website</a>{{/url}}
+	</p>
+{{/target_stores}}
+</script>
 
 <script id="listTpl" type="text/template">
 <div class="stores-found">
