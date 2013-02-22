@@ -67,26 +67,9 @@ function showStores(response) {
 	
 }
 
-function showMarkers(map, response) {
 
-    for (i = 0; i < response.total_target_stores; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(response.target_stores[i].lat, response.target_stores[i].lng),
-        map: map
-      });
 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent('<strong>' + response.target_stores[i].name + '</strong><br>' + response.target_stores[i].address + '<br>' + response.target_stores[i].city);
-          /*infowindow.setContent(popuphtml);*/
-		infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-	
-}
-
-function showMarkersTwo(map, location) {
+function showMarkers(map, location) {
 
 var jsonurl = '/ajax/stores-locator4.json?location=' + location;
 
@@ -111,67 +94,9 @@ var jsonurl = '/ajax/stores-locator4.json?location=' + location;
 
 }
 
-/*function showGoogleMap(location) {
 
-   var geocoder = new google.maps.Geocoder();
-   var address = 'London, UK';
-
-   if (geocoder) {
-      geocoder.geocode({ 'address': address }, function (results, status) {
-         if (status == google.maps.GeocoderStatus.OK) {
-            alert(results[0].geometry.lat);
-         }
-         else {
-            alert("Geocoding failed: " + status);
-         }
-      });
-   }    
-
-
+function showGoogleMap(location) {
 	
-}*/
-
-function initialize(location) {
-	//This function shows initial map and outputs list of stores
-	//using location parameter make a call to json.
-	//extract all lat and lng values
-	//using lat and lng values - generate markers and show map of the location with markers on top of them
-	//display stores_list
-
-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-      zoom: 4,
-      center: new google.maps.LatLng(37.090240, -95.7128910),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-
-var jsonurl = '/ajax/stores-locator4.json?location=' + location;
-  $.getJSON(jsonurl, function(response){
-
-
-showStores(response);
-
-//Create markers and infowindows
-showMarkers(map, response);
-
-  });	
-
-}
-
-initialize('United States');
-
-function showMapAndStores(location) {
-
-// show stores
-var jsonurl = '/ajax/stores-locator4.json?location=' + location;
-  $.getJSON(jsonurl, function(response){
-
-// show stores
-showStores(response);
-
-  });
-// show map of the location
-/*showGoogleMap(location);*/
-
    var geocoder = new google.maps.Geocoder();
 
    if (geocoder) {
@@ -179,7 +104,6 @@ showStores(response);
          if (status == google.maps.GeocoderStatus.OK) {
 		var bounds = new google.maps.LatLngBounds();
         bounds = results[0].geometry.viewport;
-		alert(bounds);
 
     var map = new google.maps.Map(document.getElementById('map_canvas'), {
       zoom: 4,
@@ -187,18 +111,41 @@ showStores(response);
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });			
 
-showMarkersTwo(map, location)
+showMarkers(map, location)
     map.fitBounds(bounds);
          }
          else {
             console.log("Geocoding failed: " + status);
          }
       });
-   } 
+   } 	
+	
+}
 
+/*showGoogleMap(location);*/
 
+function showMapAndStores(location) {
+	//This function shows initial map and outputs list of stores
+	//using location parameter make a call to json.
+	//extract all lat and lng values
+	//using lat and lng values - generate markers and show map of the location with markers on top of them
+	//display stores_list
+
+showGoogleMap(location);
+
+var jsonurl = '/ajax/stores-locator4.json?location=' + location;
+  $.getJSON(jsonurl, function(response){
+
+showStores(response);
+
+  });	
 
 }
+
+//Show initial location
+showMapAndStores('United States');
+
+
 
 $('#search_location_form').submit(function(evt) {
 		evt.preventDefault();
