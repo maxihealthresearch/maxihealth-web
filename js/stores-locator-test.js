@@ -1,29 +1,3 @@
-//Notes
-//Functions
-//1. Draw initial map in map_canvas div
-//		a. using location parameter make a call to json
-//		b. using lat and lng values - generate markers and show map of the location with markers on top of them
-//2. Render template in stores_list div using json data I got in step 1
-//3. When person submits new address - showMapAndStores function is invoked with location and zoom parameter(zoom 15 for closeup)
-//4. When store name is clicked
-//      a. clicked address is highlighted(do this later)
-//		b. shopMap function is called with (latitude, longitude, and zoom 15)
-//
-//To Do
-//Change stores-locator4.json to display stores nearby location that's not found like 11235
-//Info window should render mustache template
-//
-//Ideas
-//create showMap function
-//create initMap
-//do it the dirty way first buy call json twice and see then how you can refactor
-// 
-//Dirty Way
-//1.	a. Show Initial Map
-//		b. Output markers
-//		c. Render template in stores_list
-//2.    When person clicks store name showmap function is invoked with latitude and longitude sent 
-
 jQuery.noConflict();
 
 
@@ -34,125 +8,132 @@ function showMap(lat, lng) {
 		center: latlng,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
-	
-					var marker = new google.maps.Marker({
-						map: map, 
-						position: latlng
-					});
-	
+	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+	var marker = new google.maps.Marker({
+		map: map,
+		position: latlng
+	});
+
 }
 
 // Put all your jquery code in your document ready area to avoid conflict with prototype
 jQuery(document).ready(function($) {
 
+	var infowindow = new google.maps.InfoWindow();
+	var marker, i;
+	var infowin = [];
+
+
+	function showMarkers(map, location) {
+
+		var jsonurl = '/ajax/stores-locator4.json?location=' + location;
+
+		$.getJSON(jsonurl, function(response) {
+
+			for (i = 0; i < response.total_target_stores; i++) {
+				marker = new google.maps.Marker({
+					position: new google.maps.LatLng(response.target_stores[i].lat, response.target_stores[i].lng),
+					map: map
+				});
+
+				google.maps.event.addListener(marker, 'click', (function(marker, i) {
+					return function() {
+						infowindow.setContent('<strong>' + response.target_stores[i].name + '</strong><br>'
+						+ response.target_stores[i].address + '<br>'
+						+ response.target_stores[i].city); /*infowindow.setContent(popuphtml);*/
+						infowindow.open(map, marker);
+					}
+				})(marker, i));
+			}
+
+		});
+
+	}
+
+
+	function showGoogleMap(location) {
+
+		var geocoder = new google.maps.Geocoder();
+
+		if (geocoder) {
+			geocoder.geocode({
+				'address': location
+			}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					var bounds = new google.maps.LatLngBounds();
+					bounds = results[0].geometry.viewport;
+
+					var map = new google.maps.Map(document.getElementById('map_canvas'), {
+						zoom: 4,
+						center: results[0].geometry.location,
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					});
+
+					showMarkers(map, location)
+					map.fitBounds(bounds);
+				}
+				else {
+					console.log("Geocoding failed: " + status);
+				}
+			});
+		}
+
+	}
+
+	/*showGoogleMap(location);*/
+
+	function showMapAndStores(location) {
+
+		showGoogleMap(location);
+
+		var jsonurl = '/ajax/stores-locator4.json?location=' + location;
+		$.getJSON(jsonurl, function(data) {
+
+			// if stores found then execute this code block
+			if (data.total_target_stores > 0) {
+
+				//hide error message if it pops
+				$('.stores_locations_body .msg_error').hide();
+
+				// Display number of stores found
+				$('.stores-found h2 span').prepend(data.total_target_stores);
+
+				//use mustache.js to display all found stores
+				var template = $('#listTpl').html();
+				var html = Mustache.to_html(template, data);
+				$('#stores_list').html(html);
+				//
+
+				if (data.nearby_stores.length > 0) {
+
+					//if nearby stores are found then display nearby title
+					$('.nearby-title').show();
+				}
+
+			} else {
+				//Display message if 0 stores found
+				$('#stores_list').empty();
+				$('.stores_locations_body .msg_error').show();
+			}
+
+		}).error(function() {
+			alert("Error connecting to Maxihealth stores database");
+		});
+
+	}
+
+	//Show initial location
+	showMapAndStores('United States');
 
 
 
-
-	//Display US map with markers for all US stores
-	/*initMap('United States');*/
-
-
-
-var infowindow = new google.maps.InfoWindow();
-var marker, i;
-var infowin = [];
-
-function showStores(response) {
-
-  	var template = $('#listTpl').html();
-    var html = Mustache.to_html(template, response);
-    $('#stores_list').html(html);
-	
-}
-
-
-
-function showMarkers(map, location) {
-
-var jsonurl = '/ajax/stores-locator4.json?location=' + location;
-
-  $.getJSON(jsonurl, function(response){
-							  
-    for (i = 0; i < response.total_target_stores; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(response.target_stores[i].lat, response.target_stores[i].lng),
-        map: map
-      });
-
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent('<strong>' + response.target_stores[i].name + '</strong><br>' + response.target_stores[i].address + '<br>' + response.target_stores[i].city);
-          /*infowindow.setContent(popuphtml);*/
-		infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-
-  });
-
-}
-
-
-function showGoogleMap(location) {
-	
-   var geocoder = new google.maps.Geocoder();
-
-   if (geocoder) {
-      geocoder.geocode({ 'address': location }, function (results, status) {
-         if (status == google.maps.GeocoderStatus.OK) {
-		var bounds = new google.maps.LatLngBounds();
-        bounds = results[0].geometry.viewport;
-
-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-      zoom: 4,
-      center: results[0].geometry.location,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });			
-
-showMarkers(map, location)
-    map.fitBounds(bounds);
-         }
-         else {
-            console.log("Geocoding failed: " + status);
-         }
-      });
-   } 	
-	
-}
-
-/*showGoogleMap(location);*/
-
-function showMapAndStores(location) {
-	//This function shows initial map and outputs list of stores
-	//using location parameter make a call to json.
-	//extract all lat and lng values
-	//using lat and lng values - generate markers and show map of the location with markers on top of them
-	//display stores_list
-
-showGoogleMap(location);
-
-var jsonurl = '/ajax/stores-locator4.json?location=' + location;
-  $.getJSON(jsonurl, function(response){
-
-showStores(response);
-
-  });	
-
-}
-
-//Show initial location
-showMapAndStores('United States');
-
-
-
-$('#search_location_form').submit(function(evt) {
+	$('#search_location_form').submit(function(evt) {
 		evt.preventDefault();
 
 		var inputs = $('#location').val();
 		//Display map and display stores
-showMapAndStores(inputs);
+		showMapAndStores(inputs);
 
 	});
 
