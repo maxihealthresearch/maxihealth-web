@@ -9,9 +9,9 @@
 <meta name="audience" content="all" />
 <meta name="distribution" content="global" />
 <meta name="revisit-after" content="5 days" />
-<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css">
-<link type="text/css" rel="stylesheet" href="/css/main.css?dateStamp=1362154855" media="all" />
+<link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="css/main-test.css?dateStamp=1362154855" media="all" />
 <link rel="stylesheet" type="text/css" href="/css/autosuggest.css">
 <!--[if lt IE 9]>
 <link type="text/css" rel="stylesheet" href="/css/ie.css" media="all" />
@@ -19,8 +19,9 @@
 <!--[if IE 7]>
 <link type="text/css" rel="stylesheet" href="/css/ie7.css" media="all" />
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="css/header-test.css">
 <link rel="shortcut icon" href="/favicon.ico" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js" charset="utf-8"></script>
+
 </head>
 <body>
 <div id="main_container"> <a href="/" title="Home" id="home_page_link">&nbsp;</a>
@@ -638,12 +639,12 @@
           <li class="arrow"></li>
           <li class="headline">Find a Store Near You</li>
           <li class="store-search-input">
-            <form class="form-inline search-form" action="?">
-              <input name="dealer-search" id="dealerSearch" type="text" placeholder="some text" autocomplete="off" value="">
+            <form class="form-inline search-form" action="/stores/index.html" method="get">
+              <input name="location" id="dealerSearch" type="text" placeholder="Enter address, postal code, city, state/province or country" autocomplete="off" value="">
               <button type="submit" id="dealerSubmitBtn"><i></i></button>
             </form>
           </li>
-          <li class="view-all"><a href="/stores/">View All Stores</a></li>
+          <li class="view-all"><a href="/stores/index.html?location=Brooklyn">View All Stores</a></li>
         </ul>
       </div>
     </div>
@@ -653,8 +654,8 @@
       <div class="indicators" id="fp_banner_indicators"></div>
     </div>
     <div class="fp_text"> <a href="video-leaders-in-nutritional-Science.html"><img alt="MaxiHealth Gallery" src="/images/uploads/home-pix.png" /></a>
-      <p>For over 35 years, Maxi Health has been trusted worldwide to provide consumers with over 200 quality kosher products.&nbsp; Thank you for visiting our web site. Since you are here, you must care a lot about your health â€“ and so do we.&nbsp; We have products and formulations available for your entire family.</p>
-      <p>We are certified by the NSF &amp; GMP â€“ independent laboratories that verify the purity of dietary supplements as well as the accuracy of what is printed on product labels. <a href="why-maxi-health.html" class="decolink">Read More</a></p>
+      <p>For over 35 years, Maxi Health has been trusted worldwide to provide consumers with over 200 quality kosher products.&nbsp; Thank you for visiting our web site. Since you are here, you must care a lot about your health – and so do we.&nbsp; We have products and formulations available for your entire family.</p>
+      <p>We are certified by the NSF &amp; GMP – independent laboratories that verify the purity of dietary supplements as well as the accuracy of what is printed on product labels. <a href="why-maxi-health.html" class="decolink">Read More</a></p>
     </div>
     <div id="seasonal_products_box">
       <div class="ttl">Seasonal Products</div>
@@ -695,6 +696,38 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+<script src="/js/jquery.hoverIntent.minified.js"></script>
+<script>
+     jQuery.noConflict();
+     
+     // Put all your jquery code in your document ready area to avoid conflict with prototype
+     jQuery(document).ready(function($){
+
+/*$("#header .menu .m>a.last").click(function (e) {
+        e.preventDefault();
+});
+
+
+    $("#header .menu .m>a.last").hover(
+
+    function () {
+        var div = $(this).children("div");
+        div.stop(true, true);
+        div.slideDown(500);
+    }, function () {
+        var div = $(this).children("div");
+        div.stop(true, true);
+        div.slideUp(500);
+    });*/
+
+    $("#header .menu .m>a.last").click(function (event) {
+		event.preventDefault();
+      $(this).toggleClass('active');
+      $('#storesDropDown').toggleClass('active');	  
+    });
+
+     });
+</script>
 <script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript" src="/js/autosuggest.js"></script>
 <script type="text/javascript" src="/js/menu.js"></script>

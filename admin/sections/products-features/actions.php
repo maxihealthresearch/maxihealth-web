@@ -3,6 +3,7 @@ require_once DIR_ADMIN_INCLUDES."upload.php";
 
 if ($action == 'save') {
 	$id = intval($_POST['id']);
+	$deleteimage = intval($_POST['deleteimage']);
 	$name = form_escape($_POST['name']);
 	$description = form_escape($_POST['description']);
 	
@@ -17,8 +18,15 @@ if ($action == 'save') {
 			$image = upload_file('image', DIR_IMAGES_FEATURES.DIRECTORY_SEPARATOR, $id.'.png', true);
 		}
 		else {
+			
+			if ($deleteimage == 1) {
+			@unlink (DIR_IMAGES_FEATURES.DIRECTORY_SEPARATOR.$id.'.png');		
+			} else {
 			move_uploaded_file('image', DIR_IMAGES_FEATURES.DIRECTORY_SEPARATOR.$id.'.png');
+			}
+
 		}
+
 	
 	
 		header('Location: index.html');

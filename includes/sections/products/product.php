@@ -289,9 +289,9 @@ if (file_exists($image_file2)) {
 
  				<a href="#" class="exp" id="expand_all_btn" onclick="return showExpandedView()">Expanded View</a>
 
- 				<a href="#" class="tab selected" id="description_tab_btn" title="Description" onclick="return switchTab(0)">Description</a>
+ 				<a href="#" class="tab" id="description_tab_btn" title="Description" onclick="return switchTab(0)">Description</a>
 
- 				<a href="#" class="tab" id="supplemental_facts_tab_btn" title="Directions &amp; Supplement Facts" onclick="return switchTab(1)">Directions &amp; Supplement Facts</a>
+ 				<a href="#" class="tab selected" id="supplemental_facts_tab_btn" title="Directions &amp; Supplement Facts" onclick="return switchTab(1)">Directions &amp; Supplement Facts</a>
 
  					<?php 
 
@@ -321,7 +321,7 @@ if ($total == 0) {
 
  			<div class="tabs">
 
- 				<div id="description_tab">
+ 				<div id="description_tab" style="display:none">
 
  					<?php echo $product['description']; ?>
 
@@ -329,7 +329,7 @@ if ($total == 0) {
 
  				</div>
 
- 				<div id="supplemental_facts_tab">
+ 				<div id="supplemental_facts_tab" style="display:block">
 
                 
 

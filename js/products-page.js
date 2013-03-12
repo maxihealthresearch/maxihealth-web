@@ -213,7 +213,7 @@ var EmailFriend = {
 		this.emailInput = this.form.getElementsBySelector('input[name=email]')[0];
 		this.recipientNameInput = this.form.getElementsBySelector('input[name=recipient_name]')[0];
 		this.recipientEmailInput = this.form.getElementsBySelector('input[name=recipient_email]')[0];
-		this.submitInput = this.form.getElementsBySelector('input.submit')[0];
+		this.submitInput = $('btn_email_friend');
 		this.sendingElement = $('email_friend_sending');
 		this.sendingElement.style.display = 'none';
 		

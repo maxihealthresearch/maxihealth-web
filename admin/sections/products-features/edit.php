@@ -11,7 +11,6 @@
 <h2><?php echo ($id ? 'Edit' : 'Add') ?> product feature</h2>
 <form method="post" action="#" enctype="multipart/form-data">
 <input type="hidden" name="action" value="save" />
-<input type="hidden" name="deleteimage" id="deleteImageField" value="0" />
 <input type="hidden" name="id" value="<?php echo $r['id'] ?>" />
 <table>
 	<tr><th>Name:</th><td><input type="text" name="name" value="<?php echo $r['name'] ?>" size="30" class="text" /></td></tr>
@@ -45,6 +44,8 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
+ <input type="hidden" name="deleteimage" id="deleteImageField" value="0" />
+
 			<input type="submit" value="Save" class="btn" />
 			<input type="button" value="Back" onclick="document.location='index.html'" class="btn" />
 		</td>
@@ -61,11 +62,11 @@
 		 
 
 
-$( "#deleteImageLink" ).click(function(e) {
-e.preventDefault;
+$( "#deleteImageLink" ).click(function(event) {
+event.preventDefault();
 $( "#currentImage" ).hide();
 $( "#noImageSelected" ).show();
-$( "#deleteImageField" ).val(1);
+$( "#deleteImageField" ).val('1');
 
 
 		});
