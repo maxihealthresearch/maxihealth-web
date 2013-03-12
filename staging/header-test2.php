@@ -635,17 +635,17 @@
     <a href="javascript:$zopim.livechat.window.show()" id="chatlive"><img id="chat_img" src="/images/send-msg-btn.png"/></a>
     <div class="menu">
       <div class="m"> <a href="/why-maxi-health.html" class="first"><span>Why MaxiHealth?</span></a> <a href="/strictly-kosher.html" class="kosher"><span>Strictly Kosher</span></a> <a href="/products/new.html" class="new"><span>New Products</span></a> <a href="/articles/" class="health"><span>Health Articles</span></a> <a href="/buy-online.html" class="bo"><span><span>Buy Online</span></span></a> <a href="/stores/" class="last"><span><span>Store Locator</span></span></a>
-        <ul id="storesDropDown">
+<ul id="storesDropDown">
           <li class="arrow"></li>
           <li class="headline">Find a Store Near You</li>
           <li class="store-search-input">
-            <form class="form-inline search-form" action="/stores/index.html" method="get">
-              <input name="location" id="dealerSearch" type="text" placeholder="Enter address, postal code, city, state/province or country" autocomplete="off" value="">
+            <form class="form-inline search-form" action="/stores/test.html" method="get">
+              <input name="location" id="dealerSearch" type="text" placeholder="Enter address, postal code, city, state/province or country" autocomplete="off" value="" required>
               <button type="submit" id="dealerSubmitBtn"><i></i></button>
             </form>
           </li>
-          <li class="view-all"><a href="/stores/index.html?location=Brooklyn">View All Stores</a></li>
-        </ul>
+          <li class="view-all"><a href="/stores/test.html?location=United States">View All Stores</a></li>
+        </ul>        
       </div>
     </div>
   </div>
@@ -696,38 +696,6 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
-<script src="/js/jquery.hoverIntent.minified.js"></script>
-<script>
-     jQuery.noConflict();
-     
-     // Put all your jquery code in your document ready area to avoid conflict with prototype
-     jQuery(document).ready(function($){
-
-/*$("#header .menu .m>a.last").click(function (e) {
-        e.preventDefault();
-});
-
-
-    $("#header .menu .m>a.last").hover(
-
-    function () {
-        var div = $(this).children("div");
-        div.stop(true, true);
-        div.slideDown(500);
-    }, function () {
-        var div = $(this).children("div");
-        div.stop(true, true);
-        div.slideUp(500);
-    });*/
-
-    $("#header .menu .m>a.last").click(function (event) {
-		event.preventDefault();
-      $(this).toggleClass('active');
-      $('#storesDropDown').toggleClass('active');	  
-    });
-
-     });
-</script>
 <script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript" src="/js/autosuggest.js"></script>
 <script type="text/javascript" src="/js/menu.js"></script>

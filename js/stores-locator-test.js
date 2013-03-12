@@ -1,6 +1,7 @@
 jQuery.noConflict();
 
 
+
 function showMap(lat, lng) {
 	var latlng = new google.maps.LatLng(lat, lng);
 	var myOptions = {
@@ -20,10 +21,13 @@ function showMap(lat, lng) {
 // Put all your jquery code in your document ready area to avoid conflict with prototype
 jQuery(document).ready(function($) {
 
+
+
 	var infowindow = new google.maps.InfoWindow();
 	var marker, i;
 	var infowin = [];
-
+var query = window.location.search.substring(10);
+query = decodeURIComponent(query);
 
 	function showMarkers(map, location) {
 
@@ -124,7 +128,7 @@ jQuery(document).ready(function($) {
 	}
 
 	//Show initial location
-	showMapAndStores('United States');
+	showMapAndStores(query);
 
 
 
