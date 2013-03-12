@@ -20,7 +20,7 @@
 <link type="text/css" rel="stylesheet" href="/css/ie7.css" media="all" />
 <![endif]-->
 <link rel="shortcut icon" href="/favicon.ico" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js" charset="utf-8"></script>
+<script src="/js/modernizr.custom.min.js"></script>
 
 </head>
 <body>

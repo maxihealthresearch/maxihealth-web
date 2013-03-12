@@ -22,6 +22,7 @@
 <!--[if IE 7]>
 <link type="text/css" rel="stylesheet" href="/css/ie7<?php if (USE_RTL) echo '-rtl'; ?>.css" media="all" />
 <![endif]-->
+<script src="/js/modernizr.custom.min.js"></script>
 
 <link rel="shortcut icon" href="/favicon.ico" />
 </head>
@@ -47,13 +48,19 @@ require DIR_BOXES.'left-menu.php';
 		</div>
 	</form>
 	<a href="javascript:$zopim.livechat.window.show()" id="chatlive"><img id="chat_img" src="/images/send-msg-btn.png"/></a>
-	<div class="menu">
-		<div class="m">
-			<a href="/why-maxi-health.html" class="first"><span>Why MaxiHealth?</span></a>
-			<a href="/strictly-kosher.html" class="kosher"><span>Strictly Kosher</span></a>
-			<a href="/products/new.html" class="new"><span>New Products</span></a>
-			<a href="/articles/" class="health"><span>Health Articles</span></a>
-			<a href="/buy-online.html" class="bo"><span><span>Buy Online</span></span></a>
-			<a href="/stores/" class="last"><span>Store Locator</span></a></div>
-	</div>
+    <div class="menu">
+      <div class="m"> <a href="/why-maxi-health.html" class="first"><span>Why MaxiHealth?</span></a> <a href="/strictly-kosher.html" class="kosher"><span>Strictly Kosher</span></a> <a href="/products/new.html" class="new"><span>New Products</span></a> <a href="/articles/" class="health"><span>Health Articles</span></a> <a href="/buy-online.html" class="bo"><span><span>Buy Online</span></span></a> <a href="/stores/" class="last"><span><span>Store Locator</span></span></a>
+<ul id="storesDropDown">
+          <li class="arrow"></li>
+          <li class="headline">Find a Store Near You</li>
+          <li class="store-search-input">
+            <form class="form-inline search-form" action="/stores/test.html" method="get">
+              <input name="location" id="dealerSearch" type="text" placeholder="Enter address, postal code, city, state/province or country" autocomplete="off" value="" required>
+              <button type="submit" id="dealerSubmitBtn"><i></i></button>
+            </form>
+          </li>
+          <li class="view-all"><a href="/stores/test.html?location=United States">View All Stores</a></li>
+        </ul>        
+      </div>
+    </div>
 </div>
