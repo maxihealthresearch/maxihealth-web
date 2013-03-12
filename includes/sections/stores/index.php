@@ -8,7 +8,7 @@ $_PAGE['scripts'][] = 'http://maps.google.com/maps/api/js?key=AIzaSyBFP46Ctp5dH8
 
 $_PAGE['scripts'][] = '/js/jquery.mockjax.js';
 
-$_PAGE['scripts'][] = '/js/stores-locator-test.js';
+$_PAGE['scripts'][] = '/js/stores-locator.js';
 
 $_PAGE['scripts'][] = '/js/mustache.js';
 
