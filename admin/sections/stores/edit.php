@@ -70,6 +70,10 @@
       <td><input type="text" name="phone" value="<?php echo $r['phone'] ?>" /></td>
     </tr>
     <tr>
+      <th>Email:</th>
+      <td><input type="text" name="email" value="<?php echo $r['email'] ?>" /></td>
+    </tr>
+    <tr>
       <th>Website:</th>
       <td><input type="text" name="url" value="<?php echo $r['url'] ?>" /></td>
     </tr>

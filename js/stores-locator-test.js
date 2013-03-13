@@ -31,7 +31,7 @@ query = decodeURIComponent(query);
 
 	function showMarkers(map, location) {
 
-		var jsonurl = '/ajax/stores-locator4.json?location=' + location;
+		var jsonurl = '/ajax/stores-locator.json?location=' + location;
 
 		$.getJSON(jsonurl, function(response) {
 
@@ -91,7 +91,7 @@ query = decodeURIComponent(query);
 
 		showGoogleMap(location);
 
-		var jsonurl = '/ajax/stores-locator4.json?location=' + location;
+		var jsonurl = '/ajax/stores-locator.json?location=' + location;
 		$.getJSON(jsonurl, function(data) {
 
 			// if stores found then execute this code block
