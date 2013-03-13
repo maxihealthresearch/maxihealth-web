@@ -54,12 +54,12 @@ require DIR_BOXES.'left-menu.php';
           <li class="arrow"></li>
           <li class="headline">Find a Store Near You</li>
           <li class="store-search-input">
-            <form class="form-inline search-form" action="/stores/test.html" method="get">
+            <form class="form-inline search-form" action="/stores/index.html" method="get">
               <input name="location" id="dealerSearch" type="text" placeholder="Enter address, postal code, city, state/province or country" autocomplete="off" value="" required>
               <button type="submit" id="dealerSubmitBtn"><i></i></button>
             </form>
           </li>
-          <li class="view-all"><a href="/stores/test.html?location=United States">View All Stores</a></li>
+          <li class="view-all"><a href="/stores/index.html?location=United States">View All Stores</a></li>
         </ul>        
       </div>
     </div>

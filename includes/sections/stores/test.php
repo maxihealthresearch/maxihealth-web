@@ -52,6 +52,7 @@ Check out our great line of products up close at a retailer near you.</p>
 	{{{city}}}, {{#state}}{{state}}, {{/state}}{{{postal}}}<br>
 {{^usa}}{{{country}}}<br>{{/usa}}
 	{{{phone}}}
+{{#email}}<br>{{{email}}}{{/email}}
 {{#url}}<br><a href="{{{url}}}" target="_blank">visit website</a>{{/url}}
 	</p>
 {{/target_stores}}
@@ -69,6 +70,7 @@ Check out our great line of products up close at a retailer near you.</p>
 	{{{city}}}, {{#state}}{{state}}, {{/state}}{{{postal}}}<br>
 {{^usa}}{{{country}}}<br>{{/usa}}
 	{{{phone}}}
+{{#email}}<br>{{{email}}}{{/email}}
 {{#url}}<br><a href="{{{url}}}" target="_blank">visit website</a>{{/url}}
 	</p>
 {{/target_stores}}
