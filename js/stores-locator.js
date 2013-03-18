@@ -27,9 +27,9 @@ jQuery(document).ready(function($) {
 	var marker, i;
 	var infowin = [];
 var query = window.location.search.substring(10);
-query = decodeURIComponent(query);
+query === "" ? query = "United States" : query = decodeURIComponent(query);
 
-	function showMarkers(map, location) {
+function showMarkers(map, location) {
 
 		var jsonurl = '/ajax/stores-locator.json?location=' + location;
 

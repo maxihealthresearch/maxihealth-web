@@ -10,17 +10,11 @@
 <meta name="distribution" content="global" />
 <meta name="revisit-after" content="5 days" />
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css">
-<link type="text/css" rel="stylesheet" href="/css/main<?php if (USE_RTL) echo '-rtl'; ?>.css?dateStamp=<? echo time(); ?>" media="all" />
-<link rel="stylesheet" type="text/css" href="/css/autosuggest.css">
-<?php /*
-<link type="text/css" rel="stylesheet" href="/css/print.css" media="print" />
-*/ ?>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
+
+<link type="text/css" rel="stylesheet" href="/css/main<?php if (USE_RTL) echo '-rtl'; ?>.css" media="all" />
 <!--[if lt IE 9]>
 <link type="text/css" rel="stylesheet" href="/css/ie.css" media="all" />
-<![endif]-->
-<!--[if IE 7]>
-<link type="text/css" rel="stylesheet" href="/css/ie7<?php if (USE_RTL) echo '-rtl'; ?>.css" media="all" />
 <![endif]-->
 <script src="/js/modernizr.custom.min.js"></script>
 

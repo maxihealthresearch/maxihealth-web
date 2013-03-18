@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html> 
+<html lang="en">
 <head>
 <title>Maxihealth</title>
 <meta name="description" content="" />
@@ -10,14 +10,11 @@
 <meta name="distribution" content="global" />
 <meta name="revisit-after" content="5 days" />
 <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css">
-<link type="text/css" rel="stylesheet" href="css/main-test.css?dateStamp=1362154855" media="all" />
-<link rel="stylesheet" type="text/css" href="/css/autosuggest.css">
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
+
+<link type="text/css" rel="stylesheet" href="css/main-test.css" media="all" />
 <!--[if lt IE 9]>
 <link type="text/css" rel="stylesheet" href="/css/ie.css" media="all" />
-<![endif]-->
-<!--[if IE 7]>
-<link type="text/css" rel="stylesheet" href="/css/ie7.css" media="all" />
 <![endif]-->
 <link rel="shortcut icon" href="/favicon.ico" />
 <script src="/js/modernizr.custom.min.js"></script>
@@ -696,8 +693,7 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/js/base.js"></script>
-<script type="text/javascript" src="/js/autosuggest.js"></script>
+<script type="text/javascript" src="js/base-test.js"></script>
 <script type="text/javascript" src="/js/menu.js"></script>
 <script type="text/javascript" src="/js/holiday.js"></script>
 <script type="text/javascript" src="/js/fp.js"></script>

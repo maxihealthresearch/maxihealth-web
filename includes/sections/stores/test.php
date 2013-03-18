@@ -27,7 +27,7 @@ Check out our great line of products up close at a retailer near you.</p>
 <form method="get" action="" id="search_location_form">
 	<ul id="search_form">
 <li>Search stores:</li>
-<li><input type="text" name="location" class="text" id="location" size="30">
+<li><input type="text" name="location" class="text" id="location" size="30" required>
 <small>Enter address, postal code, city, state/province or country</small>
 </li>			
 <li><input type="submit" class="subm" value="&nbsp;"></li>
