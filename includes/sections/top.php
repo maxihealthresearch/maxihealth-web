@@ -12,7 +12,7 @@
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
 
-<link type="text/css" rel="stylesheet" href="/css/main<?php if (USE_RTL) echo '-rtl'; ?>.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/css/main.min<?php if (USE_RTL) echo '-rtl'; ?>.css" media="all" />
 <!--[if lt IE 9]>
 <link type="text/css" rel="stylesheet" href="/css/ie.css" media="all" />
 <![endif]-->
