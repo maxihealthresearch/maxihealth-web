@@ -1,0 +1,56 @@
+#AuthType Basic
+#AuthName "Maxihealth Website"
+#AuthUserFile /home/sites/maxihealth.com/.htpasswd
+#Require valid-user
+
+AddDefaultCharset UTF-8
+
+#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/js application/x-javascript images/jpeg image/gif images/png
+
+<Files ~ "\.(gif|png|js|css|ico|swf|jpe?g)$">
+	ExpiresActive On
+	ExpiresDefault "access plus 10 days"
+
+	#FileETag MTime Size
+	FileETag none
+</Files>
+
+ServerSignature Off
+
+RewriteEngine On
+
+RewriteBase /
+
+RewriteRule ^(google.*\.html)$		/$1 [L]
+
+RewriteRule ^design/(.*)$			design/$1	[L]
+
+RewriteRule ^admin/(.*)\/$	/admin/index.php?section=$1/index&%{QUERY_STRING} [L] #send all admin files to base parser
+RewriteRule ^admin/(.*)\.html.*$	/admin/index.php?section=$1&%{QUERY_STRING} [L] #send all admin files to base parser
+
+RewriteRule ^(.*wysiwyg.*)$     $1 [L] # do not change url for wysiwyg edittor
+
+RewriteRule ^(ajax/.*)\.json$	/index.php?section=$1&%{QUERY_STRING} [L] # send ajax requests to the base parser too
+RewriteRule ^products/all\.html$ /index.php?section=products/all [L]
+RewriteRule ^products/new\.html$ /index.php?section=products/new [L]
+RewriteRule ^products/group/(\d*).html$ /index.php?section=products/group&gid=$1 [L]
+RewriteRule ^products/([^/]*)\.html$ /index.php?section=products/product&url=$1 [QSA]
+RewriteRule ^products/([^/]*)/(index.html)?$ /index.php?section=products/category&url=$1 [QSA]
+RewriteRule ^products/([^/]*)/(.*)\.html /index.php?section=products/subcategory&purl=$1&url=$2 [QSA]
+
+RewriteRule ^articles/(index.html)?$ /index.php?section=articles/index [L]
+RewriteRule ^articles/(.*).html$ /index.php?section=articles/show&article_url=$1 [L]
+
+RewriteRule ^stores/(index.html)?$ /index.php?section=stores/index
+RewriteRule ^stores/(\d*)-(.*).html /index.php?section=stores/show&location=$1
+
+RewriteRule ^search/alphabetically/(index.html)?$ /index.php?section=search/alphabetically [L]
+
+RewriteRule ^(.*\.asp)$	/index.php?section=redirecter [L]
+
+RewriteRule ^(.*)\.html$	/index.php?section=$1&%{QUERY_STRING} [L] # send all pages to base parser
+#RewriteRule ^(.*\/)$	/index.php?section=$1&%{QUERY_STRING} [L] # send all pages to base parser
+
+RewriteRule ^images/capcha.png$ /includes/capcha/image.php
+
+RewriteRule ^sitemap.xml$	/sitemap.php [L]
