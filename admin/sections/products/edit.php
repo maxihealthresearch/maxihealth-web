@@ -36,7 +36,6 @@ if (count($errors)) {
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="id" value="<?php echo $row['id'] ?>" />
 <input type="hidden" name="extension" value="<?php echo $row['extension'] ?>" />
-<input type="hidden" name="date_added" value="<?php echo $row['date_added'] ?>" />
 <input type="hidden" name="ordr" value="<?php echo $row['ordr'] ?>" />
 <table>
 	<tr><th>Name: </th>
