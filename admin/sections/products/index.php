@@ -82,7 +82,8 @@ group by p.id
 			' left join groups g on (g.id = prg.group_id) '.
 			' left join reviews r on (r.product_id = p.id and r.status="A") '.
 			' where true '.
-			' group by p.ordr, p.id';
+			' group by p.ordr, p.id'.
+			' order by p.date_added DESC';
 }
 $page = intval($_GET['page']);
 if (!$page) $page = 1;
@@ -127,9 +128,7 @@ echo $total_rows_count.' items shown&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 <br /><br />
 <table class="list_table" cellspacing="0">
 	<thead>
-		<tr><td width="64">Image</td><td>Name</td>
-			<td>Categories</td><td>Groups</td><td>Reviews</td>
-			<td width="200">Actions</td></tr>
+		<tr><td width="64">Image</td><td>Name</td><td>Categories</td><td>Groups</td><td>Reviews</td><td>Date Added</td><td width="200">Actions</td></tr>
 	</thead>
 	<tbody>
 	<?php
@@ -143,6 +142,7 @@ echo $total_rows_count.' items shown&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 			<td><?php echo $r['categories'] ?></td>
 			<td><?php echo $r['groups'] ?></td>
 			<td><?php echo $r['reviews'] ?></td>
+			<td><?php echo $r['date_added'] ?></td>
 			<td><a href="edit.html?id=<?= $r['id'] ?>">edit</a>
             <a style="float:right;" href="index.html?action=delete&amp;id=<?= $r['id'] ?>" onclick="return confirmDelete()">delete</a>
             <br /><br />
