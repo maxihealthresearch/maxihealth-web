@@ -47,9 +47,8 @@ loadPageMetaData('index');
 				?>
 			</ul>
 		</div>
-		<div class="b"></div>
 	</div>
-	<img src="/images/fp-quality-ingredients.png" alt="Quality Ingredients Since 1974" />
+<img src="/images/quality-ings.png" alt="Quality Ingredients Since 1974" id="fp_brands_listing" />
 	<div class="clear_both"></div>
 </div>
 <?php /*
