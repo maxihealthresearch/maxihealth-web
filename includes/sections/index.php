@@ -22,14 +22,13 @@ loadPageMetaData('index');
 	</div>
 	
 	<div id="seasonal_products_box">
-		<div class="ttl">Seasonal Products</div>
+		<div class="ttl">New Products</div>
 		<div class="content">
 			<ul>
 				<?php 
-				$res = query ('select pr.id, pr.name, pr.url, pr.subtitle '.
-					' from featured_products f '.
-					' left join products pr on pr.id = f.product_id '.
-					' order by f.ord ');
+				$res = query ('select pr.* '.
+							' from products pr '.
+							' order by pr.date_added DESC limit 4');
 				while ($row = mysql_fetch_assoc($res)) {
 					echo '<li>',
 							'<a href="/products/', $row['url'], '.html" title="', $row['name'], '">',
