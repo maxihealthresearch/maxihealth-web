@@ -261,13 +261,11 @@ $p_count = 0; //First we set the count to be zeo
 	<div class="b"></div>
 
 <?php if (!$_PAGE['drop-left-menu']) { ?>
-	<div id="slm">
-		<a href="/search/alphabetically/">Products A to Z</a>
-		<a href="/search/by-ingredients.html">Ingredients A to Z</a>
-		<p>
-			Learn more about MaxiHealth products. Check out all our ads.
-            <a class="btn" href="/our-ads.html"><span>View ads</span></a>	
-		</p>
-	</div>
+<ul id="left-menu-btm">
+<li class="left-menu-btm-btn"><a href="/search/alphabetically/">Products A to Z</a></li>
+<li class="left-menu-btm-btn"><a href="/search/by-ingredients.html">Ingredients A to Z</a></li>
+<li><a href="/video-leaders-in-nutritional-Science.html"><img src="/images/play-video-bnr.jpg"></a></li>
+<li class="left-menu-btm-our-ads"><p class="left-menu-btm-our-ads-text">Learn more about MaxiHealth products. Check out all our ads.</p><a class="btn" href="/our-ads.html"><span>View ads</span></a></li>
+</ul>
 <?php } ?>
 </div>
