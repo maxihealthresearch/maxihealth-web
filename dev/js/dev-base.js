@@ -57,16 +57,24 @@ jQuery(document).ready(function ($) {
             this.$adspageImgWrap.on("hover", function (e) {
                 $(this).find(".adspage-zoom-icon").toggleClass("hidden");
             });
-            $("#adsPageThumbs .adspage-img-wrap, #adsPageThumbs .adspage-title").on("click", Gallery.displaymodal);
-
+            $("#adsPageThumbs .adspage-img-wrap, #adsPageThumbs .adspage-title").on("click", this.displayModal);
+            $("#adsModalClose").on("click", this.closeModal);
         },
         cacheElements: function () {
             this.$adspageImgWrap = $("#adsPageThumbs li .adspage-img-wrap");
+            this.$bgElements = $("#main_container, #footer, #sub_footer");
+            this.$modalWindow = $("#adsModalOverlay, #adsModalContainer"); 
         },
-        displaymodal: function (e) {
+        displayModal: function (e) {
             e.preventDefault();
-            $("#main_container, #footer, #sub_footer").fadeOut('fast', function () {
-                $("#adsModalOverlay, #adsModalContainer").fadeIn('slow');
+            Gallery.$bgElements.fadeOut('fast', function () {
+                Gallery.$modalWindow.fadeIn('slow');
+            });
+        },
+        closeModal: function (e) {
+            e.preventDefault();
+            Gallery.$modalWindow.fadeOut('fast', function () {
+                Gallery.$bgElements.fadeIn('slow');
             });
         }
     }
@@ -74,12 +82,12 @@ jQuery(document).ready(function ($) {
 
 
 
-    $("#adsModalClose").on("click", function (e) {
+/*    $("#adsModalClose").on("click", function (e) {
         e.preventDefault();
         $("#adsModalOverlay, #adsModalContainer").fadeOut('fast', function () {
             $("#main_container, #footer, #sub_footer").fadeIn('slow');
         });
-    });
+    });*/
 
     $('#sidebar-slides').after('<div id="sidebar-slide-dash">')
         .cycle({
