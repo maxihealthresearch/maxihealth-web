@@ -25,61 +25,61 @@
     <div id="adsModalContainer">
         <div id="adsModalSidebar">
             <ul>
-                <li>
+                <li data-id="29" id="modalThumbID29">
                     <p>Stress Reducers</p>
-                    <img src="http://www.maxihealth.com/images/ads/29_smallthumb.png">
+                    <img src="/images/ads/29_smallthumb.png">
                 </li>
-                <li class="selected">
+                <li data-id="31" id="modalThumbID31">
                     <p>Natural Lifesaver</p>
-                    <img src="http://www.maxihealth.com/images/ads/31_smallthumb.png">
+                    <img src="/images/ads/31_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="32" id="modalThumbID32">
                     <p>Chewable Vitamin D3</p>
-                    <img src="http://www.maxihealth.com/images/ads/32_smallthumb.png">
+                    <img src="/images/ads/32_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="33" id="modalThumbID33">
                     <p>Glutamax</p>
-                    <img src="http://www.maxihealth.com/images/ads/33_smallthumb.png">
+                    <img src="/images/ads/33_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="34" id="modalThumbID34">
                     <p>Sleep Aid</p>
-                    <img src="http://www.maxihealth.com/images/ads/34_smallthumb.png">
+                    <img src="/images/ads/34_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="35" id="modalThumbID35">
                     <p>DMG</p>
-                    <img src="http://www.maxihealth.com/images/ads/35_smallthumb.png">
+                    <img src="/images/ads/35_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="36" id="modalThumbID36">
                     <p>Relax To The Max</p>
-                    <img src="http://www.maxihealth.com/images/ads/36_smallthumb.png">
+                    <img src="/images/ads/36_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="37" id="modalThumbID37">
                     <p>Co Q</p>
-                    <img src="http://www.maxihealth.com/images/ads/37_smallthumb.png">
+                    <img src="/images/ads/37_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="38" id="modalThumbID38">
                     <p>Children Fish Oil</p>
-                    <img src="http://www.maxihealth.com/images/ads/38_smallthumb.png">
+                    <img src="/images/ads/38_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="39" id="modalThumbID39">
                     <p>Calcium</p>
-                    <img src="http://www.maxihealth.com/images/ads/39_smallthumb.png">
+                    <img src="/images/ads/39_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="40" id="modalThumbID40">
                     <p>MultiYums!</p>
-                    <img src="http://www.maxihealth.com/images/ads/40_smallthumb.png">
+                    <img src="/images/ads/40_smallthumb.png">
                 </li>
-                <li>
+                <li data-id="41" id="modalThumbID41">
                     <p>MultiYums!</p>
-                    <img src="http://www.maxihealth.com/images/ads/41_smallthumb.png">
+                    <img src="/images/ads/41_smallthumb.png">
                 </li>
             </ul>
         </div>
-        <div id="adsModalImage">
+        <div id="adsModalRight">
             <a href="close" id="adsModalClose">close</a>
-            <img src="http://maxihealth.com/images/ads/40_large.png">
+            <div id="adsModalLoading" class="hidden"><img src="/images/spinner.gif">&nbsp;&nbsp;<span>Loading Ad</span></div>
+            <div id="adsModalImage"></div>            
         </div>    
-    
     </div>
     
 <div id="main_container">
@@ -146,18 +146,18 @@
   
     
 <ul id="adsPageThumbs">
-    <li><div class="adspage-img-wrap"><img src="/images/ads/29.png" alt="Stress Reducers"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Stress Reducers</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/31.png" alt="Natural Lifesaver"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Natural Lifesaver</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/32.png" alt="Chewable Vitamin D3"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Chewable Vitamin D3</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/33.png" alt="Glutamax"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Glutamax</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/34.png" alt="Sleep Aid"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Sleep Aid</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/35.png" alt="DMG"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">DMG</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/36.png" alt="Relax To The Max"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Relax To The Max</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/37.png" alt="Co Q"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Co Q</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/38.png" alt="Children Fish Oil"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Children Fish Oil</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/39.png" alt="Calcium"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Calcium</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/40.png" alt="MultiYums!"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">MultiYums!</a></p></li>
-    <li><div class="adspage-img-wrap"><img src="/images/ads/41.png" alt="MultiYums!"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">MultiYums!</a></p></li>
+    <li data-id="29"><div class="adspage-img-wrap"><img src="/images/ads/29.png" alt="Stress Reducers"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Stress Reducers</a></p></li>
+    <li data-id="31"><div class="adspage-img-wrap"><img src="/images/ads/31.png" alt="Natural Lifesaver"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Natural Lifesaver</a></p></li>
+    <li data-id="32"><div class="adspage-img-wrap"><img src="/images/ads/32.png" alt="Chewable Vitamin D3"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Chewable Vitamin D3</a></p></li>
+    <li data-id="33"><div class="adspage-img-wrap"><img src="/images/ads/33.png" alt="Glutamax"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Glutamax</a></p></li>
+    <li data-id="34"><div class="adspage-img-wrap"><img src="/images/ads/34.png" alt="Sleep Aid"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Sleep Aid</a></p></li>
+    <li data-id="35"><div class="adspage-img-wrap"><img src="/images/ads/35.png" alt="DMG"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">DMG</a></p></li>
+    <li data-id="36"><div class="adspage-img-wrap"><img src="/images/ads/36.png" alt="Relax To The Max"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Relax To The Max</a></p></li>
+    <li data-id="37"><div class="adspage-img-wrap"><img src="/images/ads/37.png" alt="Co Q"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Co Q</a></p></li>
+    <li data-id="38"><div class="adspage-img-wrap"><img src="/images/ads/38.png" alt="Children Fish Oil"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Children Fish Oil</a></p></li>
+    <li data-id="39"><div class="adspage-img-wrap"><img src="/images/ads/39.png" alt="Calcium"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Calcium</a></p></li>
+    <li data-id="40"><div class="adspage-img-wrap"><img src="/images/ads/40.png" alt="MultiYums!"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">MultiYums!</a></p></li>
+    <li data-id="41"><div class="adspage-img-wrap"><img src="/images/ads/41.png" alt="MultiYums!"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">MultiYums!</a></p></li>
     </ul>
 
 </div>
