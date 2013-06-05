@@ -59,21 +59,40 @@ jQuery(document).ready(function ($) {
             });
             $("#adsPageThumbs .adspage-img-wrap, #adsPageThumbs .adspage-title").on("click", this.displayModal);
             $("#adsModalClose").on("click", this.closeModal);
+            $("#adsModalSidebar").on("click", "li", this.switchImage);
         },
         cacheElements: function () {
             this.$adspageImgWrap = $("#adsPageThumbs li .adspage-img-wrap");
             this.$bgElements = $("#main_container, #footer, #sub_footer");
-            this.$modalWindow = $("#adsModalOverlay, #adsModalContainer"); 
+            this.$modalWindow = $("#adsModalOverlay, #adsModalContainer");
+            this.$modalThumb = $("#adsModalSidebar li");
+        },
+        switchImage: function () {
+            var $thumbID = $(this).data("id");
+            $("#adsModalImage img").remove();
+            $("#adsModalImage").append("<img src='/images/ads/" + $thumbID + "_large.png'>");
+            Gallery.$modalThumb.removeClass("ads-modal-selected");
+            $(this).addClass("ads-modal-selected");
         },
         displayModal: function (e) {
             e.preventDefault();
             Gallery.$bgElements.fadeOut('fast', function () {
-                Gallery.$modalWindow.fadeIn('slow');
+                Gallery.$modalWindow.fadeIn('slow', function () {
+                    //highlight thumb in gallery that's the same as the one that was clicked
+                    var $thumbID = $(e.target).closest("li").data("id");
+                    var thumbIDVal = "modalThumbID" + $thumbID;
+                    $("#" + thumbIDVal).addClass("ads-modal-selected");
+                    location.hash = thumbIDVal;
+                    $("#adsModalImage").append("<img src='/images/ads/" + $thumbID + "_large.png'>");
+                });
             });
         },
         closeModal: function (e) {
             e.preventDefault();
             Gallery.$modalWindow.fadeOut('fast', function () {
+                location.hash = "";
+                Gallery.$modalThumb.removeClass("ads-modal-selected");
+                $("#adsModalImage img").remove();
                 Gallery.$bgElements.fadeIn('slow');
             });
         }
@@ -82,7 +101,7 @@ jQuery(document).ready(function ($) {
 
 
 
-/*    $("#adsModalClose").on("click", function (e) {
+    /*    $("#adsModalClose").on("click", function (e) {
         e.preventDefault();
         $("#adsModalOverlay, #adsModalContainer").fadeOut('fast', function () {
             $("#main_container, #footer, #sub_footer").fadeIn('slow');
