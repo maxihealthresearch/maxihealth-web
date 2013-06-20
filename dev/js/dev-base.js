@@ -1,3 +1,5 @@
+/*global window: false, Mustache */
+
 //Zopim start
 //Must have
 window.$zopim || (function (d, s) {
@@ -54,59 +56,90 @@ jQuery(document).ready(function ($) {
     var Gallery = {
         init: function () {
             this.cacheElements();
-            this.$adspageImgWrap.on("hover", function (e) {
-                $(this).find(".adspage-zoom-icon").toggleClass("hidden");
-            });
-            $("#adsPageThumbs .adspage-img-wrap, #adsPageThumbs .adspage-title").on("click", this.displayModal);
-            $("#adsModalClose").on("click", this.closeModal);
-            $("#adsModalSidebar").on("click", "li", this.switchImage);
+            this.bindEvents();
         },
         cacheElements: function () {
-            this.$adspageImgWrap = $("#adsPageThumbs li .adspage-img-wrap");
-            this.$bgElements = $("#main_container, #footer, #sub_footer");
-            this.$modalWindow = $("#adsModalOverlay, #adsModalContainer");
-            this.$modalThumb = $("#adsModalSidebar li");
+            this.$adsPageThumbs = $("#adsPageThumbs");
+            this.$adspageImgWrap = this.$adsPageThumbs.find(".adspage-img-wrap");
+            this.$bgElements = $("#main_container");
+            this.$modalWindow = $("#adsModalContainer");
+            this.$overlay = $("#adsModalOverlay");
+            this.$modalImgWrap = $("#adsModalImgWrap");
+            this.$sidebar = this.$modalWindow.find(".ads-modal-sidebar ul");
+            this.current_ad_id = "";
+        },
+        bindEvents: function () {
+            this.$adspageImgWrap.on("hover", this.toggleZoomIcon)
+                .on("click", this.displayGallery);
+            this.$adsPageThumbs.find(".adspage-title").on("click", this.displayGallery);
+            this.$modalWindow.on("click", '.ads-modal-close', this.closeModal)
+                .on("click", ".ads-modal-sidebar ul li", this.setImgID)
+                .on("click", ".ads-modal-arrow", this.navigate);
+
+        },
+        setImgID: function (e) {
+            Gallery.current_ad_id = $(e.target).closest("li").data("id");
+            Gallery.switchImage();
+        },
+        highlightThumb: function () {
+            Gallery.$modalWindow.find(".ads-modal-sidebar ul li").removeClass("ads-modal-selected");
+            $("#modalThumbID" + this.current_ad_id).addClass("ads-modal-selected");
         },
         switchImage: function () {
-            var $thumbID = $(this).data("id");
-            $("#adsModalImage img").remove();
-            $("#adsModalImage").append("<img src='/images/ads/" + $thumbID + "_large.png'>");
-            Gallery.$modalThumb.removeClass("ads-modal-selected");
-            $(this).addClass("ads-modal-selected");
+            Gallery.highlightThumb();
+            var bigImage = Gallery.$modalWindow.find(".ads-modal-img");
+            bigImage.find("img").remove();
+            bigImage.append("<img src='/images/ads/" + Gallery.current_ad_id + "_large.png'>");
+            Gallery.setWindowLocation();
+            /*            
+            Gallery.scrollThumbIntoView();*/
         },
-        displayModal: function (e) {
+        displayGallery: function (e) {
             e.preventDefault();
+            Gallery.current_ad_id = $(e.target).closest("li").data("id");
+            var modalWindow = Gallery.$modalWindow;
+            modalWindow.load('modal-gallery.php', Gallery.switchImage);
+
             Gallery.$bgElements.fadeOut('fast', function () {
-                Gallery.$modalWindow.fadeIn('slow', function () {
-                    //highlight thumb in gallery that's the same as the one that was clicked
-                    var $thumbID = $(e.target).closest("li").data("id");
-                    var thumbIDVal = "modalThumbID" + $thumbID;
-                    $("#" + thumbIDVal).addClass("ads-modal-selected");
-                    location.hash = thumbIDVal;
-                    $("#adsModalImage").append("<img src='/images/ads/" + $thumbID + "_large.png'>");
+                modalWindow.fadeIn('slow', function () {
+                    Gallery.$overlay.show();
                 });
             });
+        },
+        navigate: function (e) {
+            e.preventDefault();
+            var listNode = Gallery.$modalWindow.find(".ads-modal-sidebar ul li");
+            var $direction = $(e.target).closest(".ads-modal-arrow").data("navigate");
+            var current_id = listNode.filter('[data-id=' + Gallery.current_ad_id + ']');
+            var first_id = listNode.first().data("id");
+            var last_id = listNode.last().data("id");
+            var next_id = current_id.next().data("id");
+            next_id = typeof next_id === 'undefined' ? first_id : next_id;
+            var prev_id = current_id.prev().data("id");
+            prev_id = typeof prev_id === 'undefined' ? last_id : prev_id;
+            Gallery.current_ad_id = $direction === 'next' ? next_id : prev_id;
+            Gallery.switchImage();
+        },
+        setWindowLocation: function () {
+            window.location.hash = "modalThumbID" + Gallery.current_ad_id;
         },
         closeModal: function (e) {
             e.preventDefault();
             Gallery.$modalWindow.fadeOut('fast', function () {
-                location.hash = "";
-                Gallery.$modalThumb.removeClass("ads-modal-selected");
-                $("#adsModalImage img").remove();
+                Gallery.$overlay.hide();
+                window.location.hash = "";
+                /*Gallery.$modalThumb.removeClass("ads-modal-selected");*/
+                /*Gallery.$bigImage.find("img").remove();*/
                 Gallery.$bgElements.fadeIn('slow');
+                /*Gallery.current_ad_id = "";*/
             });
+        },
+        toggleZoomIcon: function (e) {
+            $(e.target).parent().find(".adspage-zoom-icon").toggleClass("hidden");
         }
-    }
+
+    };
     Gallery.init();
-
-
-
-    /*    $("#adsModalClose").on("click", function (e) {
-        e.preventDefault();
-        $("#adsModalOverlay, #adsModalContainer").fadeOut('fast', function () {
-            $("#main_container, #footer, #sub_footer").fadeIn('slow');
-        });
-    });*/
 
     $('#sidebar-slides').after('<div id="sidebar-slide-dash">')
         .cycle({
