@@ -96,13 +96,22 @@ jQuery(document).ready(function ($) {
         },
         displayGallery: function (e) {
             e.preventDefault();
-            Gallery.current_ad_id = $(e.target).closest("li").data("id");
             var modalWindow = Gallery.$modalWindow;
-            modalWindow.load('modal-gallery.php', Gallery.switchImage);
 
+            var $thumb = $(e.target).closest("li");
+            Gallery.current_ad_id = $thumb.data("id");
+            var $height = $thumb.height() + $thumb.prev().height();
+            var $offset = $thumb.offset();
+            var thumbOffset = $offset.top < 201 ? 0 : $offset.top + 191 ;
+/*            var thumbOffset = $offset.top;*/
+
+            modalWindow.load('/includes/boxes/modal-gallery.php', Gallery.switchImage);
             Gallery.$bgElements.fadeOut('fast', function () {
                 modalWindow.fadeIn('slow', function () {
                     Gallery.$overlay.show();
+                    modalWindow.find(".ads-modal-sidebar").scrollTop(thumbOffset);
+                    console.log($height);
+
                 });
             });
         },
@@ -121,17 +130,15 @@ jQuery(document).ready(function ($) {
             Gallery.switchImage();
         },
         setWindowLocation: function () {
-            window.location.hash = "modalThumbID" + Gallery.current_ad_id;
+            /*window.location.hash = "modalThumbID" + Gallery.current_ad_id;*/
+            /*Gallery.$modalWindow.find(".ads-modal-sidebar").scrollTop(100);*/
         },
         closeModal: function (e) {
             e.preventDefault();
             Gallery.$modalWindow.fadeOut('fast', function () {
                 Gallery.$overlay.hide();
                 window.location.hash = "";
-                /*Gallery.$modalThumb.removeClass("ads-modal-selected");*/
-                /*Gallery.$bigImage.find("img").remove();*/
                 Gallery.$bgElements.fadeIn('slow');
-                /*Gallery.current_ad_id = "";*/
             });
         },
         toggleZoomIcon: function (e) {
