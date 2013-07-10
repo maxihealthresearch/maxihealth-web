@@ -4,11 +4,15 @@ require_once DIR_ADMIN_INCLUDES."upload.php";
 if ($action == 'save') {
 	$id = intval($_POST['id']);
 	$name = form_escape($_POST['name']);
+	$link = form_escape($_POST['link']);	
 	$extension = form_escape($_POST['extension']);	
 	
 		if (!$name)
 			$errors['name'] = true;
-			
+
+		if (!$link)
+			$errors['link'] = true;
+
 		if ($id == 0 && !is_uploaded_file($_FILES['image']['tmp_name']))
 			$errors['image'] = true;
 
@@ -35,6 +39,8 @@ if ($action == 'save') {
 				($id ? $id : 'null').','.
 
 				'"'.$name.'",'.
+
+				'"'.$link.'",'.
 
 				'"'.$extension.'"'.
 

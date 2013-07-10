@@ -23,12 +23,18 @@ if (count($errors)) {
 		echo '<p class="error">Please Enter Ad Name!</p>';
 	}
 
+	if ($errors['link']) {
+
+		echo '<p class="error">Please Enter Link url for this ad!</p>';
+	}
+	
 	if ($errors['image']) {
 
 		echo '<p class="error">Please select file to upload!</p>';
 	}
 
 	$row['name'] = $_POST['name'];
+	$row['link'] = $_POST['link'];
 
 }
 
@@ -46,10 +52,9 @@ if (count($errors)) {
 <table>
 
 	<tr><th>Name:</th><td><input type="text"  class="text" size="50" name="name" value="<?php echo $row['name'] ?>" /></td>
-
-
 	<tr><td colspan="2">&nbsp;</td></tr>
-
+	<tr><th>Link:</th><td><input type="text"  class="text" size="50" name="link" value="<?php echo $row['link'] ?>" /></td>
+	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr><th>File:</th><td><input type="file" name="image" class="file" />
     <br />
     <em>PNG or JPEG files only. If an ad is PDF - use <a href="http://pdfjpg.net/" target="_blank">pdfjpg.net</a> to convert it to JPEG</em>
