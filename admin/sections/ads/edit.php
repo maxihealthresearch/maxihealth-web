@@ -16,13 +16,19 @@ else
 
 if (count($errors)) {
 
-	if ($errors['image'])
 
-		echo '<p class="error">Please select image to upload!</p>';
 
-	if ($errors['file'])
+	if ($errors['name']) {
 
-		echo '<p class="error">Please select PDF file to upload!</p>';
+		echo '<p class="error">Please Enter Ad Name!</p>';
+	}
+
+	if ($errors['image']) {
+
+		echo '<p class="error">Please select file to upload!</p>';
+	}
+
+	$row['name'] = $_POST['name'];
 
 }
 
@@ -33,20 +39,21 @@ if (count($errors)) {
 <h2><?php echo ($id ? 'Edit' : 'Add') ?> Ad</h2><br />
 
 <form method="post" action="#" enctype="multipart/form-data">
-
 <input type="hidden" name="action" value="save" />
-
 <input type="hidden" name="id" value="<?php echo $row['id'] ?>" />
-
 <input type="hidden" name="extension" value="<?php echo $row['extension'] ?>" />
 
 <table>
 
 	<tr><th>Name:</th><td><input type="text"  class="text" size="50" name="name" value="<?php echo $row['name'] ?>" /></td>
 
-	<tr><th>Image:</th><td><input type="file" name="image" class="file" /><br />
 
-		<em>A thumbnail will be generated to fit 198x278px</em></td></tr>
+	<tr><td colspan="2">&nbsp;</td></tr>
+
+	<tr><th>File:</th><td><input type="file" name="image" class="file" />
+    <br />
+    <em>PNG or JPEG files only. If an ad is PDF - use <a href="http://pdfjpg.net/" target="_blank">pdfjpg.net</a> to convert it to JPEG</em>
+    </td></tr>
 
 	<?php if ($id > 0 ) { ?>
 
@@ -65,10 +72,6 @@ if (count($errors)) {
 	</tr>
 
 	<?php } ?>
-
-	<tr><th>File:</th><td><input type="file" name="file" class="file" /><br />
-
-		<em>Upload only PDF files!</em></td></tr>
 
 	<tr><td colspan="2">&nbsp;</td></tr>
 
@@ -89,4 +92,3 @@ if (count($errors)) {
 
 
 </form>
-
