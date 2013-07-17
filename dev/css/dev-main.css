@@ -10,6 +10,7 @@ html, body {
 }
 body {
     height: 100%;
+    position:relative;
 }
 a {
     text-decoration: none;
@@ -617,32 +618,44 @@ h3 {
     height: 307px;
     overflow: hidden;
     position:relative;
+    margin-bottom:1em;
 }
-#sidebar-slides {
+#sidebar-adgroup .sidebar-zoom-icon {
+    position: absolute;
+    top: 128px;
+    left: 25px;
+    width: 150px;
+    height: 150px;
+    text-indent: -9999px;
+    background: url(/dev/img/ads_sprite.png) no-repeat scroll 0 -226px transparent;
+    cursor:pointer;
+    z-index:10;
+}
+#left_menu .sidebar-slides {
     width: 238px;
-    height: 307px;
+    height: 288px;
     margin:auto;
 }
-#sidebar-slides a {
+#left_menu .sidebar-slides a {
     display:block;
     width:236px;
     margin-left:auto;
     margin-right:auto;
 }
-#sidebar-slides a img {
+#left_menu .sidebar-slides a img {
     padding-top:6px;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-#sidebar-slide-dash {
+#left_menu .sidebar-slide-dash {
     width: 90px;
     height: 10px;
     position: absolute;
     right: 74px;
-    top: 292px;
+    top: 293px;
 }
-#sidebar-slide-dash a {
+#left_menu .sidebar-slide-dash a {
     background: url(/images/leftnav_sprite.png) -10px -470px no-repeat;
     width: 9px;
     height: 13px;
@@ -654,7 +667,7 @@ h3 {
     margin-left: 8px;
     float: left;
 }
-#sidebar-slide-dash .activeSlide, #sidebar-slide-dash a:hover {
+#left_menu .sidebar-slide-dash .activeSlide, #left_menu .sidebar-slide-dash a:hover {
     background-position:0 -470px;
 }
 #sidebar-adgroup .left-menu-seeads {
@@ -2259,10 +2272,6 @@ h3 {
     background: url(/dev/img/ads_sprite.png) no-repeat scroll 0 -226px transparent;
     cursor:pointer;
 }
-/*#adsPageThumbs li .adspage-zoom-icon:hover {
- background-position: 0 -76px;
-    
-}*/
  #adsModalOverlay {
     background-color: #F5F5F5;
     height: 2100px;
@@ -2275,9 +2284,8 @@ h3 {
     z-index: 999;
     display:none;
 }
-#adsModalContainer {
+#modalGalleryWrap {
     border: 0 solid #CECECE;
-    display: none;
     overflow: hidden;
     width: 100%;
     height: 100%;
@@ -2292,16 +2300,16 @@ h3 {
 #adsModalSidebar {
     background: #e5e5e5;
     width: 15%;
-    float:left;
-    height:100%;
+    float: left;
+    height: 100%;
     border-right: solid 1px #b3b3b3;
-    overflow:auto;
-    padding-left:0.5%;
+    overflow: auto;
+    padding-left: 0.5%;
 }
 #adsModalSidebar ul {
-    margin:10px 0 0 0;
+    margin:0;
     padding:0;
-    width:158px;
+    width:auto;
 }
 #adsModalSidebar li {
     margin:0 0 10px 0;
@@ -2334,20 +2342,71 @@ h3 {
     color:#fff;
 }
 #adsModalRight {
-    float:right;
+    float: right;
+    height: 100%;
+    width: 80%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+#adsModalImgWrap {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+#adsModalImgWrap li {
+    float:left;
+    display:block;
+    text-align: center;
+}
+#adsModalImgWrap .ads-modal-img-prev, #adsModalImgWrap .ads-modal-img-next {
+    margin:20% 0;
+}
+#adsModalImgWrap .ads-modal-img-prev a, #adsModalImgWrap .ads-modal-img-next a {
+    display:block;
+    width:43px;
+    height:74px;
+    background: url(/dev/img/ads_sprite.png) no-repeat scroll -107px 0 transparent;
+    text-indent: -9999px;
+    outline-style:none;
+}
+#adsModalImgWrap .ads-modal-img-next a {
+    background-position: -150px 0;
+}
+#adsModalImgWrap .ads-modal-img-prev a:hover {
+    background-position: -193px 0;
+}
+#adsModalImgWrap .ads-modal-img-next a:hover {
+    background-position: -236px 0;
+}
+#adsModalImgWrap .ads-modal-img {
     height:100%;
-    width:70%;
-    overflow:hidden;
+    width: 80%;
 }
-#adsModalImage {
-        height:100%;
+#adsModalImgWrap .ads-modal-preloader {
+    background:url(/images/spinner.gif) center center no-repeat #ffffff;
 }
-#adsModalImage img {
+#adsModalImgWrap .ads-modal-img img {
     height:100%;
+    margin:0 5%;
 }
-#adsModalLoading {
+#maxiDialog {
     margin: 30% auto;
-    width:70%;
+    left: 0;
+    right: 0;
+    width: 10em;
+    height: auto;
+    padding: 1em;
+    position: fixed;
+    background: #fff;
+    border: #000 solid 1px;
+    z-index: 1;
+}
+#maxiDialog .maxi-dialog-loading.hidden, #maxiDialog .maxi-dialog-error.hidden {
+    display:none;
 }
 #adsModalClose {
     background: url(/dev/img/ads_sprite.png) no-repeat scroll -42px 0 transparent;

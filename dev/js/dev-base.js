@@ -41,7 +41,7 @@ function change_chat_img(status) {
 
 var App = {
     timestamp: Number(new Date())
-}
+};
 
 Modernizr.load({
     test: Modernizr.input.placeholder,
@@ -53,110 +53,167 @@ jQuery.noConflict();
 // Put all your jquery code in your document ready area to avoid conflict with prototype
 jQuery(document).ready(function ($) {
 
-    var Gallery = {
-        init: function () {
-            this.cacheElements();
-            this.bindEvents();
-        },
-        cacheElements: function () {
-            this.$adsPageThumbs = $("#adsPageThumbs");
-            this.$adspageImgWrap = this.$adsPageThumbs.find(".adspage-img-wrap");
-            this.$bgElements = $("#main_container");
-            this.$modalWindow = $("#adsModalContainer");
-            this.$overlay = $("#adsModalOverlay");
-            this.$modalImgWrap = $("#adsModalImgWrap");
-            this.$sidebar = this.$modalWindow.find(".ads-modal-sidebar ul");
-            this.current_ad_id = "";
-        },
-        bindEvents: function () {
-            this.$adspageImgWrap.on("hover", this.toggleZoomIcon)
-                .on("click", this.displayGallery);
-            this.$adsPageThumbs.find(".adspage-title").on("click", this.displayGallery);
-            this.$modalWindow.on("click", '.ads-modal-close', this.closeModal)
-                .on("click", ".ads-modal-sidebar ul li", this.setImgID)
-                .on("click", ".ads-modal-arrow", this.navigate);
 
-        },
-        setImgID: function (e) {
-            Gallery.current_ad_id = $(e.target).closest("li").data("id");
-            Gallery.switchImage();
-        },
-        highlightThumb: function () {
-            Gallery.$modalWindow.find(".ads-modal-sidebar ul li").removeClass("ads-modal-selected");
-            $("#modalThumbID" + this.current_ad_id).addClass("ads-modal-selected");
-        },
-        switchImage: function () {
-            Gallery.highlightThumb();
-            var bigImage = Gallery.$modalWindow.find(".ads-modal-img");
-            bigImage.find("img").remove();
-            bigImage.append("<img src='/images/ads/" + Gallery.current_ad_id + "_large.png'>");
-            Gallery.setWindowLocation();
-            /*            
-            Gallery.scrollThumbIntoView();*/
-        },
-        displayGallery: function (e) {
-            e.preventDefault();
-            var modalWindow = Gallery.$modalWindow;
 
-            var $thumb = $(e.target).closest("li");
-            Gallery.current_ad_id = $thumb.data("id");
-            var $height = $thumb.height() + $thumb.prev().height();
-            var $offset = $thumb.offset();
-            var thumbOffset = $offset.top < 201 ? 0 : $offset.top + 191 ;
-/*            var thumbOffset = $offset.top;*/
+    var Album = (function () {
 
-            modalWindow.load('/includes/boxes/modal-gallery.php', Gallery.switchImage);
-            Gallery.$bgElements.fadeOut('fast', function () {
-                modalWindow.fadeIn('slow', function () {
-                    Gallery.$overlay.show();
-                    modalWindow.find(".ads-modal-sidebar").scrollTop(thumbOffset);
-                    console.log($height);
+        var $adsPageThumbs = $("#adsPageThumbs");
+        var $adspageImgWrap = $adsPageThumbs.find(".adspage-img-wrap");
+        var $bgElements = $("#main_container");
+        var $modalWindow = $("#adsModalContainer");
+        var $overlay = $("#adsModalOverlay");
+        var current_ad_id = "";
+        var current_ad_link = "";
+        var modalURL = "/includes/boxes/modal-gallery.php";
+        var sidbarAdWrap = $("#sidebar-adgroup");
+
+        var init = function () {
+            bindEvents();
+        };
+
+        function bindEvents() {
+            $adspageImgWrap.on("mouseenter mouseleave", toggleZoomIcon)
+                .on("click", displayGallery);
+            $adsPageThumbs.find(".adspage-title").on("click", displayGallery);
+            $("#sidebar-slides").on("click", displayGallery);
+            $modalWindow.on("click", '.ads-modal-close', closeModal)
+                .on("click", ".ads-modal-sidebar ul li", setImgID)
+                .on("click", ".ads-modal-arrow", navigate)
+                .on("load", "#modalGalleryWrap");
+
+        }
+
+        function setImgID(e) {
+            var $li = $(e.target).closest("li");
+            current_ad_id = $li.data("id");
+            current_ad_link = $li.data("link");
+            switchImage();
+        }
+
+        function highlightThumb() {
+            $modalWindow.find(".ads-modal-sidebar ul li").removeClass("ads-modal-selected");
+            $("#modalThumbID" + current_ad_id).addClass("ads-modal-selected");
+        }
+
+        function setBigImage() {
+            var $bigImage = $modalWindow.find(".ads-modal-img");
+            $bigImage.find("img").remove();
+            $bigImage.find("a").append("<img src='/images/ads/" + current_ad_id + "_large.png'>")
+                .attr('href', current_ad_link);
+
+        }
+
+        function switchImage() {
+            $bgElements.fadeOut('fast', function () {
+                $modalWindow.fadeIn('slow', function () {
+                    $overlay.show();
+                    highlightThumb();
+                    setBigImage();
+                    scrollThumbIntoView(); //scroll to selected image 
 
                 });
             });
-        },
-        navigate: function (e) {
+        }
+
+        function displayGallery(e) {
             e.preventDefault();
-            var listNode = Gallery.$modalWindow.find(".ads-modal-sidebar ul li");
+            var $thumb = $(e.target).closest("li");
+            current_ad_id = $thumb.data("id");
+            current_ad_link = $thumb.data("link");
+            $modalWindow.load(modalURL, switchImage);
+        }
+
+        function scrollThumbIntoView() {
+            var $sidebar = $modalWindow.find(".ads-modal-thumbs");
+            var $totalAds = $sidebar.find("li").length;
+            var $adItem = $("#modalThumbID" + current_ad_id);
+            var $thumbIndex = $sidebar.find("li").index($adItem) + 1;
+            var $sidebarHeight = $sidebar.height();
+            var oneThumbHeight = $sidebarHeight / $totalAds;
+            var multipleThumbsHeight = (oneThumbHeight) * $thumbIndex;
+            var thumbOffset = 0;
+
+            for (var i = 0; i < $totalAds; i = i + 3) {
+                if (multipleThumbsHeight > oneThumbHeight * i) {
+                    thumbOffset = oneThumbHeight * i;
+                }
+            }
+
+            $modalWindow.find(".ads-modal-sidebar").animate({
+                scrollTop: thumbOffset
+            }, 500);
+
+
+        }
+
+        function navigate(e) {
+            e.preventDefault();
+            var listNode = $modalWindow.find(".ads-modal-sidebar ul li");
             var $direction = $(e.target).closest(".ads-modal-arrow").data("navigate");
-            var current_id = listNode.filter('[data-id=' + Gallery.current_ad_id + ']');
+            var current_id = listNode.filter('[data-id=' + current_ad_id + ']');
             var first_id = listNode.first().data("id");
             var last_id = listNode.last().data("id");
             var next_id = current_id.next().data("id");
-            next_id = typeof next_id === 'undefined' ? first_id : next_id;
+            next_id = next_id === null ? first_id : next_id;
             var prev_id = current_id.prev().data("id");
-            prev_id = typeof prev_id === 'undefined' ? last_id : prev_id;
-            Gallery.current_ad_id = $direction === 'next' ? next_id : prev_id;
-            Gallery.switchImage();
-        },
-        setWindowLocation: function () {
-            /*window.location.hash = "modalThumbID" + Gallery.current_ad_id;*/
-            /*Gallery.$modalWindow.find(".ads-modal-sidebar").scrollTop(100);*/
-        },
-        closeModal: function (e) {
-            e.preventDefault();
-            Gallery.$modalWindow.fadeOut('fast', function () {
-                Gallery.$overlay.hide();
-                window.location.hash = "";
-                Gallery.$bgElements.fadeIn('slow');
-            });
-        },
-        toggleZoomIcon: function (e) {
-            $(e.target).parent().find(".adspage-zoom-icon").toggleClass("hidden");
+            prev_id = prev_id === null ? last_id : prev_id;
+            current_ad_id = $direction === 'next' ? next_id : prev_id;
+            switchImage();
         }
 
-    };
-    Gallery.init();
+        function closeModal(e) {
+            e.preventDefault();
+            $modalWindow.fadeOut('fast', function () {
+                $overlay.hide();
+                window.location.hash = "";
+                $bgElements.fadeIn('slow');
+            });
+        }
 
-    $('#sidebar-slides').after('<div id="sidebar-slide-dash">')
-        .cycle({
-        fx: 'fade',
-        force: 1,
-        timeout: 8000,
-        pause: 1,
-        pauseOnPagerHover: 1,
-        pager: '#sidebar-slide-dash'
-    });
+        function toggleZoomIcon(e) {
+            $(e.target).parent().find(".adspage-zoom-icon").toggleClass("hidden");
+        }
+        return {
+            init: init
+        };
+    })();
+
+
+    var Mainapp = (function () {
+
+        function displaySidebarSlides() {
+            var $leftmenu = $('#left_menu');
+
+            $leftmenu
+                .find(".sidebar-slides")
+                .before('<div class="sidebar-slide-dash">')
+                .cycle({
+                fx: 'fade',
+                force: 1,
+                timeout: 8000,
+                pause: 1,
+                pauseOnPagerHover: 1,
+                pager: '.sidebar-slide-dash'
+            });
+
+
+        }
+        var init = function () {
+            displaySidebarSlides();
+            Album.init();
+        };
+
+
+
+        return {
+            init: init
+        };
+    })();
+
+    Mainapp.init();
+
+
+
 
     $("#searchInput").autocomplete({
         source: "/ajax/suggest4.json",
