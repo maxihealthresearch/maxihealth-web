@@ -21,6 +21,8 @@
 <link rel="shortcut icon" href="/favicon.ico" />
 </head>
 <body<?php if ($_PAGE['onload']) echo ' onload="'.$_PAGE['onload'].'"'; ?>>
+<div id="adsModalOverlay"></div>
+<div id="adsModalContainer" class="hidden"></div>
 <div id="main_container">
 <a href="/" title="Home" id="home_page_link">&nbsp;</a>
 <?php 
