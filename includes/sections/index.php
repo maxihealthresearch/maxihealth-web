@@ -18,8 +18,10 @@ loadPageMetaData('index');
 	</div>
 	
 	<div class="fp_text">
-		<?php echo $_PAGE['body'] ?>
-	</div>
+		<a href="/why-maxi-health.html"><img alt="Over 250 Products" src="/images/home-over-250-products.jpg"></a>
+<p>For over 35 years, Maxi Health has been trusted worldwide to provide consumers with over 250 quality kosher products.&nbsp; Thank you for visiting our web site. Since you are here, you must care a lot about your health - and so do we.&nbsp; We have products and formulations available for your entire family.</p>
+<p>We are certified by the NSF &amp; GMP - independent laboratories that verify the purity of dietary supplements as well as the accuracy of what is printed on product labels. <a href="why-maxi-health.html" class="decolink">Read More</a></p></div>
+
 	
 	<div id="seasonal_products_box">
 		<div class="ttl">New Products</div>
