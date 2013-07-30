@@ -1,0 +1,118 @@
+#body.home-body {
+	margin: 10px 10px 30px 248px;
+}
+.home-intro {
+color: #084827;
+line-height: 21px;
+font-size: 15px;
+padding-top: 18px;
+overflow: hidden;
+margin-bottom: 20px;
+}
+.home-intro img {
+float: left;
+margin: 0 20px 10px 25px;
+}
+.home-intro p {
+margin: 15px 0;
+}
+.home-brands-listing {
+    width: 492px;
+    border: 1px solid #ddd;
+    height: 403px;
+    padding: 4px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    background: #fff;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#fbfbfb));
+    background: -webkit-linear-gradient(#fff, #fbfbfb);
+    background: -moz-linear-gradient(#fff, #fbfbfb);
+    background: -ms-linear-gradient(#fff, #fbfbfb);
+    background: -o-linear-gradient(#fff, #fbfbfb);
+    background: linear-gradient(#fff, #fbfbfb);
+}
+.home-newitems-wrap {
+    float: right;
+    width: 222px;
+    border: 1px solid #ddd;
+    height: 403px;
+    padding: 8px 5px 0 5px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    background: #fff;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#fbfbfb));
+    background: -webkit-linear-gradient(#fff, #fbfbfb);
+    background: -moz-linear-gradient(#fff, #fbfbfb);
+    background: -ms-linear-gradient(#fff, #fbfbfb);
+    background: -o-linear-gradient(#fff, #fbfbfb);
+    background: linear-gradient(#fff, #fbfbfb);
+}
+
+.home-newitems-header {
+list-style: none;
+margin: 0;
+padding: 0;
+    overflow: hidden;
+left: -10px;
+position: relative; 
+    width: 242px;
+}
+
+.home-newitems-header li {
+float:left;
+}
+
+.home-newitems-title {
+    background: transparent url(/dev/img/home_sprite.png) no-repeat 0 0;
+    height: 30px;
+    width: 150px;
+    padding: 0;
+        text-indent: -9999px;
+}
+.home-newitems-seeall a {
+    background: transparent url(/dev/img/home_sprite.png) no-repeat -170px 0;
+    height: 25px;
+    width: 66px;
+    padding: 0;
+        text-indent: -9999px;
+    display:block;
+    margin: 5px 0 0 18px;
+}
+.home-newitems-seeall a:hover {
+background-position: -236px 0;
+}
+
+.home-newitems-content {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: 12px;    
+}
+.home-newitems-content li {
+    padding: 0;
+    margin: 9px 0 0 0;
+    height: 83px;
+}
+.home-newitems-content li img {
+    float: left;
+    max-height: 80px;
+}
+.home-newitems-content li div {
+    margin: 0 10px 0 55px;
+    height: 75px;
+overflow: hidden;
+}
+.home-newitems-content li div strong {
+    color: #2d4802;
+    display: block;
+}
+.home-newitems-content li div a:hover strong {
+    text-decoration: none;
+    color: #e6820e;
+}
+.home-newitems-content li div a:hover {
+    text-decoration: none
+}

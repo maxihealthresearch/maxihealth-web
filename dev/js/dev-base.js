@@ -1,4 +1,4 @@
-/*global window: false, Mustache */
+/*global window: false, jQuery */
 
 //Zopim start
 //Must have
@@ -51,12 +51,40 @@ Modernizr.load({
 jQuery.noConflict();
 
 // Put all your jquery code in your document ready area to avoid conflict with prototype
-jQuery(document).ready(function ($) {
+(function ($) {
 
+    var SidebarSlider = (function () {
 
+        function init() {
+            var $leftmenu = $('#left_menu');
+
+            $leftmenu
+                .find(".sidebar-slides")
+                .cycle({
+                fx: 'fade',
+                activePagerClass: 'activeSlide',
+                force: 1,
+                timeout: 8000,
+                pause: 1,
+                pauseOnPagerHover: 1,
+                pager: '.sidebar-slide-dash',
+                after: function (el, next_el) {
+                    $(next_el).addClass('js-active-sidebar-slide');
+                },
+                before: function (el) {
+                    $(el).removeClass('js-active-sidebar-slide');
+                }
+            });
+
+        }
+
+        return {
+            init: init
+        };
+    })();
 
     var Album = (function () {
-
+        var doc = $("document");
         var $adsPageThumbs = $("#adsPageThumbs");
         var $adspageImgWrap = $adsPageThumbs.find(".adspage-img-wrap");
         var $bgElements = $("#main_container");
@@ -65,22 +93,51 @@ jQuery(document).ready(function ($) {
         var current_ad_id = "";
         var current_ad_link = "";
         var modalURL = "/includes/boxes/modal-gallery.php";
-        var sidbarAdWrap = $("#sidebar-adgroup");
+        var $sidebarSlidesZoomWrpr = $("#jsSidebarSlidesZoomWrpr");
 
         var init = function () {
             bindEvents();
         };
 
         function bindEvents() {
-            $adspageImgWrap.on("mouseenter mouseleave", toggleZoomIcon)
-                .on("click", displayGallery);
-            $adsPageThumbs.find(".adspage-title").on("click", displayGallery);
-            $("#sidebar-slides").on("click", displayGallery);
+            $("body").find(".js-largezoom").on("showZoomIcon", toggleZoom);
+            $("#adsPageThumbs .adspage-img-wrap, #jsSidebarSlidesZoomWrpr").on("mouseenter mouseleave", triggerZoom);
+
+            /*            $adspageImgWrap.on("click", displayGallery);
+            $adsPageThumbs.find("a").on("click", displayGallery);
+            $sidebarSlidesZoomWrpr.on("click", displayGallery);*/
+
+            $("body").find(".js-gallery-data").on('displayGalleryEvent', displayGallery);
+
+            $("#adsPageThumbs .adspage-img-wrap, #adsPageThumbs a").on("click", function (event) {
+                $(this).closest(".js-gallery-data").trigger('displayGalleryEvent');
+                event.preventDefault();
+            });
+
+            $(".sidebar-slides").on("click", ".js-gallery-data", function (event) {
+                $(this).trigger('displayGalleryEvent');
+                event.preventDefault();
+
+            });
+            $(".sidebar-slides").on("click", ".js-gallery-data", function (event) {
+                $(this).trigger('displayGalleryEvent');
+                event.preventDefault();
+
+            });
             $modalWindow.on("click", '.ads-modal-close', closeModal)
                 .on("click", ".ads-modal-sidebar ul li", setImgID)
                 .on("click", ".ads-modal-arrow", navigate)
                 .on("load", "#modalGalleryWrap");
 
+        }
+
+        function toggleZoom() {
+            var $zoomIcon = $(this);
+            $zoomIcon.toggleClass("hidden");
+        }
+
+        function triggerZoom() {
+            $(this).parent().find(".js-largezoom").trigger("showZoomIcon");
         }
 
         function setImgID(e) {
@@ -117,8 +174,9 @@ jQuery(document).ready(function ($) {
 
         function displayGallery(e) {
             e.preventDefault();
-            var $thumb = $(e.target).closest("li");
+            var $thumb = $(this);
             current_ad_id = $thumb.data("id");
+            console.log("current_ad_id: " + $(e.target));
             current_ad_link = $thumb.data("link");
             $modalWindow.load(modalURL, switchImage);
         }
@@ -170,97 +228,104 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        function toggleZoomIcon(e) {
-            $(e.target).parent().find(".adspage-zoom-icon").toggleClass("hidden");
-        }
-        return {
-            init: init
-        };
-    })();
-
-
-    var Mainapp = (function () {
-
-        function displaySidebarSlides() {
-            var $leftmenu = $('#left_menu');
-
-            $leftmenu
-                .find(".sidebar-slides")
-                .before('<div class="sidebar-slide-dash">')
-                .cycle({
-                fx: 'fade',
-                force: 1,
-                timeout: 8000,
-                pause: 1,
-                pauseOnPagerHover: 1,
-                pager: '.sidebar-slide-dash'
-            });
-
-
-        }
-        var init = function () {
-            displaySidebarSlides();
-            Album.init();
-        };
-
-
 
         return {
             init: init
         };
     })();
 
-    Mainapp.init();
 
 
+    var StoresDropdown = (function () {
+        function bindEvent() {
+            $("#header .menu .m>a.last").on("click", toggleSlide);
+        }
 
+        function toggleSlide(e) {
+            e.preventDefault();
+            var $el = $(e.target).closest("a");
+            $el.toggleClass('active');
+            $('#storesDropDown').slideToggle('active');
+        }
 
-    $("#searchInput").autocomplete({
-        source: "/ajax/suggest4.json",
-        minLength: 2,
-        focus: function (event, ui) {
-            $("#searchInput").val(ui.item.label);
-            return false;
-        },
-        select: function (event, ui) {
-            var pageURL = $("#ui-active-menuitem").attr("href");
-            if (pageURL != '') {
-                window.location.href = pageURL;
-            }
+        return {
+            init: bindEvent
+        };
+    })();
 
-            if (ui.item.url) {
-                window.location.href = "/products/" + ui.item.url + ".html";
-            }
+    var MaxiAutocomplete = (function () {
 
-        },
-        open: function (event, ui) {
+        var $searchInput = $("#searchInput");
+        var $bottomLinks = $('<li class="ui-menu-item other-search" id="saLink"><a href="/search/alphabetically/">Search&nbsp;Alphabetically</a></li><li class="ui-menu-item other-search" id="sbiLink"><a href="/search/by-ingredients.html" style="border:0">Search&nbsp;by&nbsp;Ingredients</a></li>');
+        var dataURL = "/ajax/suggest4.json";
+        var $activeItem = $("#ui-active-menuitem");
+        var dateStamp = Number(new Date());
+
+        function openFunction() {
             $("ul.ui-autocomplete, ul.ui-autocomplete li a").removeClass("ui-corner-all");
-            $('<li class="ui-menu-item other-search" id="saLink"><a href="/search/alphabetically/">Search&nbsp;Alphabetically</a></li><li class="ui-menu-item other-search" id="sbiLink"><a href="/search/by-ingredients.html" style="border:0">Search&nbsp;by&nbsp;Ingredients</a></li>').appendTo('ul.ui-autocomplete.ui-menu');
+            $bottomLinks.appendTo('ul.ui-autocomplete.ui-menu');
 
-            /*$("#saLink a, #sbiLink a").hover(function () {$(this).toggleClass("ui-state-hover")});*/
-            $("#saLink a, #sbiLink a").mouseover(function () {
+            $("#saLink a, #sbiLink a")
+                .on("mouseover", function () {
                 $(this).addClass("ui-state-hover");
                 $(this).attr('id', 'ui-active-menuitem');
-            });
-            $("#saLink a, #sbiLink a").mouseout(function () {
+            })
+                .on("mouseout", function () {
                 $(this).removeClass("ui-state-hover");
                 $(this).attr('id', '');
+            })
+                .on("click", function () {
+                window.location.href = $activeItem.attr("href");
             });
-
-            $("#saLink a, #sbiLink a").click(function () {
-                window.location.href = $("#ui-active-menuitem").attr("href")
-            });
-
         }
-    }).data("autocomplete")._renderItem = function (ul, item) {
-        return $("<li></li>").data("item.autocomplete", item).append('<a><ul id="autocomleteItem"><li><img src="/images/products/' + (item.value) + '_t.png?dateStamp=' + App.timestamp + '"></li><li>' + item.label + '</li></ul></a>').appendTo(ul);
-    }
 
 
-    $("#header .menu .m>a.last").click(function (event) {
-        event.preventDefault();
-        $(this).toggleClass('active');
-        $('#storesDropDown').slideToggle('active');
-    });
 
-});
+
+        var init = function () {
+
+            $searchInput.autocomplete({
+                source: dataURL,
+                minLength: 2,
+                focus: function (event, ui) {
+                    $searchInput.val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    var pageURL = $activeItem.attr("href");
+                    if (pageURL !== '') {
+                        window.location.href = pageURL;
+                    }
+
+                    if (ui.item.url) {
+                        window.location.href = "/products/" + ui.item.url + ".html";
+                    }
+
+                },
+                open: openFunction
+            })
+                .data("autocomplete")
+                ._renderItem = function (ul, item) {
+                return $("<li></li>").data("item.autocomplete", item)
+                    .append('<a><ul id="autocomleteItem"><li><img src="/images/products/' + (item.value) + '_t.png?dateStamp=' + dateStamp + '"></li><li>' + item.label + '</li></ul></a>')
+                    .appendTo(ul);
+            };
+
+
+
+        };
+
+        return {
+            init: init
+        };
+    })();
+
+
+    StoresDropdown.init();
+    SidebarSlider.init();
+    Album.init();
+    MaxiAutocomplete.init();
+
+
+
+})(jQuery);

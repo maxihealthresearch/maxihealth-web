@@ -12,6 +12,8 @@
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
 <link type="text/css" rel="stylesheet" href="css/dev-main.css" media="all" />
+<link type="text/css" rel="stylesheet" href="css/home-d.css" media="all" />
+
 <!--[if lt IE 9]>
 <link type="text/css" rel="stylesheet" href="/css/ie.css" media="all" />
 <![endif]-->
@@ -675,27 +677,61 @@ while ($row = mysql_fetch_assoc($res)) {
       </div>
     </div>
   </div>
-  <div id="body" class="our_ads_body">
-    <h1 class="bb">Our Ads</h1>
-    <ul id="adsPageThumbs">
-      <?php 
+<div id="body" class="home-body">
+	<div id="fp_banner" class="loading">
+		<?php
 require_once $_SERVER['DOCUMENT_ROOT']."/config.php"; //this gets database data
 
-$res = mysql_query("select * from ads order by id DESC");
+$res = mysql_query('select id, href from fp_banners 
+		where display = 1
+		order by ord asc');
+		$chunk = array ();
+		$ind = 0;
+		while ($row = mysql_fetch_assoc($res))
+			echo '<a href="', ($row['href'] ? $row['href'] : '#'), '" ',
+				'class="b id_', $row['id'], ($ind++ == 0 ? ' current' : ''), '" title="">&nbsp;</a>'; 
+		?>
+		<div class="indicators" id="fp_banner_indicators"></div>
+	</div>
+	
+	<div class="home-intro">
+		<a href="/why-maxi-health.html"><img alt="Over 250 Products" src="/images/home-over-250-products.jpg"></a>
+<p>For over 35 years, Maxi Health has been trusted worldwide to provide consumers with over 250 quality kosher products.&nbsp; Thank you for visiting our web site. Since you are here, you must care a lot about your health - and so do we.&nbsp; We have products and formulations available for your entire family.</p>
+<p>We are certified by the NSF &amp; GMP - independent laboratories that verify the purity of dietary supplements as well as the accuracy of what is printed on product labels. <a href="why-maxi-health.html" class="decolink">Read More</a></p>
+</div>
 
-while ($row = mysql_fetch_assoc($res)) {
+	
+	<div class="home-newitems-wrap">
+<ul class="home-newitems-header"><li class="home-newitems-title">new products</li><li class="home-newitems-seeall"><a href="/products/new.html">see all</a></li></ul>
+			<ul class="home-newitems-content">
+				<?php 
+require_once $_SERVER['DOCUMENT_ROOT']."/config.php"; //this gets database data
 
-	echo '<li class="js-gallery-data" data-id="', $row['id'], '" data-link="', $row['link'], '"><div class="adspage-img-wrap">',    
+$res = mysql_query('select pr.* '.
+							' from products pr '.
+							' order by pr.date_added DESC limit 4');
+				while ($row = mysql_fetch_assoc($res)) {
+					echo '<li>',
+							'<a href="/products/', $row['url'], '.html" title="', $row['name'], '">',
+								'<img src="', WEB_DIR_IMAGES_PRODUCTS, $row['id'], '_t.png" ',
+								'alt="', $row['name'], '" />',
+							'</a>',
+							'<div>',
+								'<a href="/products/', $row['url'], '.html" title="', $row['name'], '">',
+									'<strong>', $row['name'], '</strong>',
+									$row['subtitle'],
+								'</a>',
+							'</div>',
+						'</li>';
+				}
+				?>
 
-	'<img src="', WEB_DIR_IMAGES_ADS, $row['id'], '.png" title="', $row['name'], '"><div class="adspage-zoom-icon js-largezoom hidden">enlarge</div></div><p>',
 
-	'<a href="enlarge">', $row['name'], '</a></p></li>';
-}
-
-?>
-      <!--<li data-id="29"><div class="adspage-img-wrap"><img src="/images/ads/29.png" alt="Stress Reducers"><div class="adspage-zoom-icon hidden">enlarge</div></div><p><a href="enlarge" class="adspage-title">Stress Reducers</a></p></li>-->
-    </ul>
-  </div>
+             </ul>
+	</div>
+<img src="/images/quality-ings.png" alt="Quality Ingredients Since 1974" class="home-brands-listing">
+	<div class="clear_both"></div>
+</div>
   <div class="clear_both"></div>
 </div>
 <!--end of main_container-->
@@ -716,5 +752,7 @@ while ($row = mysql_fetch_assoc($res)) {
 <script src="//ajax.aspnetcdn.com/ajax/jquery.cycle/2.99/jquery.cycle.all.min.js"></script>
 <script type="text/javascript" src="js/dev-base.js"></script>
 <script type="text/javascript" src="/js/menu.js"></script>
+<script type="text/javascript" src="/js/fp.js"></script>
+
 </body>
 </html>
