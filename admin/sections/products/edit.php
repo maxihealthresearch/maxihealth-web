@@ -23,7 +23,7 @@ if ($id > 0) {
 
 if (count($errors)) {
 	if ($errors['name']) echo '<p class="error">Please enter name of the product!</p>';
-	if ($errors['url']) echo '<p class="error">Please enter URL chunk of the product!</p>';
+	/*if ($errors['url']) echo '<p class="error">Please enter URL chunk of the product!</p>';*/
 	if ($errors['category']) echo '<p class="error">Please select at least one category!</p>';
 	if ($errors['url-duplicate']) echo '<p class="error">There already is a product with that URL!</p>';
 	if ($errors['image']) echo '<p class="error">Please select image to upload!</p>';
@@ -32,17 +32,17 @@ if (count($errors)) {
 	
 ?>
 <h2><?php echo ($id ? 'Edit' : 'Add') ?> product</h2><br />
+
+<p>*Required Fields</p>
+
+<br>
 <form method="post" action="#" enctype="multipart/form-data">
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="id" value="<?php echo $row['id'] ?>" />
 <input type="hidden" name="extension" value="<?php echo $row['extension'] ?>" />
-<input type="hidden" name="date_added" value="<?php echo $row['date_added'] ?>" />
-<input type="hidden" name="ordr" value="<?php echo $row['ordr'] ?>" />
 <table>
-	<tr><th>Name: </th>
+	<tr><th>*Name: </th>
 		<td><input type="text" name="name" class="text" value="<?php echo $row['name']?>" size="50" /></td></tr>
-	<tr><th>URL chunk: </th>
-		<td><input type="text" name="url" class="text" value="<?php echo $row['url']?>" size="50" /></td></tr>
 	<tr>
 		<th>Groups:</th><td><table><tr><td style="width:400px"><div class="cats_list">
 		<?php 
@@ -56,7 +56,7 @@ if (count($errors)) {
 		}
 		?>
 		</div></td>
-    <td style="width:50px"><strong>Categories:</strong></td><td><div class="cats_list">
+    <td style="width:50px"><strong>*Categories:</strong></td><td><div class="cats_list">
 		<?php 
 		$categories = $GLOBALS['categories'];
 		foreach ($categories as $category) {
@@ -133,8 +133,15 @@ if (count($errors)) {
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr><th>"See our Ad" link URL: </th>
 		<td><input type="text" name="see_our_ad_link_url" class="text" value="<?php echo $row['see_our_ad_link_url']?>" size="50" /></td></tr>
+	<tr><th>Date Added:</th>
+    	
+        <!--Note: 4-18-2013. Convert mysql date to php date. Need to figure out regular expressions--> 	
+    	<?php /*?><td><input type="text" name="date_added" class="text" value="<?php echo date('m/d/Y H:i:s',strtotime($row['date_added'])); ?>" size="50" /><br /><?php */?>
+    	<td><input type="text" name="date_added" class="text" value="<?php echo $row['date_added']; ?>" size="50" /><br />
+
+		<em>Format year/month/day hour/min/sec/.  The newer the date - the higher the product is positioned on new products page. By default all new products have latest date.</em></td></tr>
 	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><th>Product Images:</th><td><table><tr>
+	<tr><th>*Product Images:</th><td><table><tr>
     <td>Image 1:</td><td><input type="file" name="image" class="file" /></td>
     <td>Image 2:</td><td><input type="file" name="image2" class="file" /></td>
     <td>Image 3:</td><td><input type="file" name="image3" class="file" /></td>

@@ -1,12 +1,19 @@
 <?php
 require DIR_ADMIN_INCLUDES."upload.php"; 
+
+
+
 switch ($action) {
 	case 'save':
 		$id = intval($_POST['id']);
 		$name = form_escape($_POST['name']);
 		$subtitle = form_escape($_POST['subtitle']);
-		$url = rawurlencode(preg_replace("/\s+/", '-', trim($_POST['url'])));
-		$ordr = intval($_POST['ordr']);	
+		
+		// clean up url tag
+		$url = preg_replace("/&#?[a-z0-9]+;/i","",$name);
+    	$url = strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|trade|uml);~i', '$1', htmlentities($url, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+		//
+		
 		$meta_keywords = form_escape($_POST['meta_keywords']);
 		$meta_description = form_escape($_POST['meta_description']);
 		$short_description = form_escape($_POST['short_description']);
@@ -17,10 +24,19 @@ switch ($action) {
 		$other_facts = trim(addslashes($_POST['other_facts']));
 		$directions = trim(addslashes($_POST['directions']));
 		$ingredients_search = trim(addslashes($_POST['ingredients_search']));
-		
+
 		$benefits = form_escape($_POST['benefits']);
 		
 		$see_our_ad_link_url = form_escape($_POST['see_our_ad_link_url']);
+		//$date_added = mysql_real_escape_string($_POST['$date_added']);
+		$date_added = form_escape($_POST['date_added']);
+		
+		if(empty($date_added)) {
+		$date_added = date("Y-m-d H:i:s");		 
+		}
+		
+		//Note: 4-18-2013. Tried to format php date(mm/dd/yy) back to mysql date but confused with regular expressions
+		//$date_added = preg_replace('#(\d{2})/\d{2}/(\d{4})\s(.*)#', '$3-$2-$1 $4', $date_added);
 		
 		if (is_uploaded_file($_FILES['image']['tmp_name'])) {
 			$chunk = explode('.', $_FILES['image']['name']);
@@ -57,20 +73,21 @@ switch ($action) {
 		}
 		
 		if (!$name) $errors['name'] = true;
-		if (!$url)
+		
+/*		if (!$url)
 			$errors['url'] = true;
 		else {
 			$res = query('select count(*) from products where url = "'.$url.'" and id != '.intval($id));
 			if (mysql_result($res, 0, 0) > 0)
 				$errors['url-duplicate'] = true;
-		}
+		}*/
+		
 		if (count($categoriesIDs) == 0) 
 			$errors['category'] = true;
 		
 		if ($id == 0 && !is_uploaded_file($_FILES['image']['tmp_name']))
 			$errors['image'] = true;
 			
-		$date_added = form_escape($_POST['date_added']);
 			
 		if (count($errors) == 0) {
 			$searchData = $name.' '.$subtitle.' '.
@@ -80,13 +97,12 @@ switch ($action) {
 				$meta_description.' '.$meta_keywords;
 			$searchData = preg_replace('/\s+/', ' ', $searchData);
 			
-			query ('replace into products (id, ordr, url, name, subtitle, short_description, '.
+			query ('replace into products (id, url, name, subtitle, short_description, '.
 					'benefits, description, directions, supplemental_facts, other_ingredients, '.
 					'other_facts, ingredients_search, meta_description, meta_keywords, '.
 					'see_our_ad_link_url, extension, search_data, date_added '.
 					') values ('.
 					($id ? $id : 'null').','.
-					$ordr.','.
 					'"'.stripslashes($url).'",'.
 					'"'.stripslashes($name).'",'.
 					'"'.stripslashes($subtitle).'",'.
@@ -103,11 +119,8 @@ switch ($action) {
 					'"'.$see_our_ad_link_url.'",'.
 					'"'.$extension.'",'.
 					'"'.$searchData.'",'.
-					'"'.($date_added ? $date_added : 'now()').'"'.
-					')');
-					if (empty($ordr)) {
-    				query ('update products set ordr = ordr + 1');
-					}					
+					'"'.$date_added.'"'.
+					')');				
 			if ($id == 0) {
 				$id = mysql_insert_id();
 			} else {
@@ -185,15 +198,6 @@ switch ($action) {
 		query ('delete from products_features where product_id = '.$id);
 		query ('delete from products_forms where product_id = '.$id);
 		query ('delete from products_groups where product_id = '.$id);
-		query ('update products set ordr = ordr - 1');
-		break;
-	case 'move':
-		$dir = intval($_GET['dir']);
-		$id = intval($_GET['id']);
-		$ordr = intval($_GET['ordr']);
-		query ("update products set ordr = ordr - (".$dir.") where ordr = ".($ordr + $dir));
-		query ("update products set ordr = ordr + (".$dir.") where id = ".$id);
-		header ("Location: index.html");
 		break;
 }
 ?>
