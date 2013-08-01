@@ -244,14 +244,14 @@ if ($product=mysql_fetch_assoc($res)) {
 
 if (file_exists($image_file2)) {
 					echo '<ul id="itemThumbList">';
-					echo '<li><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_t.png"></a></li>';
-					echo '<li><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_t.png"></a></li>';
+					echo '<li title="', $product['image_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_t.png" alt="', $product['image_name'], '"></a></li>';
+					echo '<li title="', $product['image_2_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_t.png" alt="', $product['image_2_name'], '"></a></li>';
 }
 if (file_exists($image_file3)) {
-					echo '<li><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_t.png"></a></li>';
+					echo '<li title="', $product['image_3_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_t.png" alt="', $product['image_3_name'], '"></a></li>';
 }
 if (file_exists($image_file4)) {
-					echo '<li><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_t.png"></a></li>';
+					echo '<li title="', $product['image_4_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_t.png" alt="', $product['image_4_name'], '"></a></li>';
 }
 if (file_exists($image_file2)) {
 					echo '</ul>';
