@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"<?php if (USE_RTL) echo ' dir="rtl"'; ?>>
+<!DOCTYPE html>
+<html xml:lang="en"<?php if (USE_RTL) echo ' dir="rtl"'; ?>>
 <head>
 <title><?php echo $_PAGE['title'] ?></title>
 <meta name="description" content="<?php echo $_PAGE['description'] ?>" />
@@ -9,15 +9,11 @@
 <meta name="audience" content="all" />
 <meta name="distribution" content="global" />
 <meta name="revisit-after" content="5 days" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css">
-
 <link type="text/css" rel="stylesheet" href="/css/main.min<?php if (USE_RTL) echo '-rtl'; ?>.css" media="all" />
-<!--[if lt IE 9]>
-<link type="text/css" rel="stylesheet" href="/css/ie.css" media="all" />
-<![endif]-->
 <script src="/js/modernizr.custom.min.js"></script>
-
 <link rel="shortcut icon" href="/favicon.ico" />
 </head>
 <body<?php if ($_PAGE['onload']) echo ' onload="'.$_PAGE['onload'].'"'; ?>>
