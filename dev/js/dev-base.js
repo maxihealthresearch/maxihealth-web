@@ -103,10 +103,6 @@ jQuery.noConflict();
             $("body").find(".js-largezoom").on("showZoomIcon", toggleZoom);
             $("#adsPageThumbs .adspage-img-wrap, #jsSidebarSlidesZoomWrpr").on("mouseenter mouseleave", triggerZoom);
 
-            /*            $adspageImgWrap.on("click", displayGallery);
-            $adsPageThumbs.find("a").on("click", displayGallery);
-            $sidebarSlidesZoomWrpr.on("click", displayGallery);*/
-
             $("body").find(".js-gallery-data").on('displayGalleryEvent', displayGallery);
 
             $("#adsPageThumbs .adspage-img-wrap, #adsPageThumbs a").on("click", function (event) {
@@ -114,16 +110,11 @@ jQuery.noConflict();
                 event.preventDefault();
             });
 
-            $(".sidebar-slides").on("click", ".js-gallery-data", function (event) {
-                $(this).trigger('displayGalleryEvent');
+            $("#jsSidebarSlidesZoomWrpr").on("click", function (event) {
+                $(this).find(".js-active-sidebar-slide").trigger('displayGalleryEvent');
                 event.preventDefault();
-
             });
-            $(".sidebar-slides").on("click", ".js-gallery-data", function (event) {
-                $(this).trigger('displayGalleryEvent');
-                event.preventDefault();
 
-            });
             $modalWindow.on("click", '.ads-modal-close', closeModal)
                 .on("click", ".ads-modal-sidebar ul li", setImgID)
                 .on("click", ".ads-modal-arrow", navigate)
@@ -176,7 +167,6 @@ jQuery.noConflict();
             e.preventDefault();
             var $thumb = $(this);
             current_ad_id = $thumb.data("id");
-            console.log("current_ad_id: " + $(e.target));
             current_ad_link = $thumb.data("link");
             $modalWindow.load(modalURL, switchImage);
         }
