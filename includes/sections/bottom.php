@@ -25,8 +25,9 @@ require DIR_BOXES.'bottom-menu.php';
 </div>
 <!--Note: Script order important to avoid conflict between prototype and jquery-->
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.cycle/2.99/jquery.cycle.all.min.js"></script>
 <script type="text/javascript" src="/js/base.js"></script>
 <script type="text/javascript" src="/js/menu.js"></script>
 <?php 
