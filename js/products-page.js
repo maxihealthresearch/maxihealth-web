@@ -337,3 +337,23 @@ var EmailFriend = {
 	}
 }
 Event.observe(window, 'load', EmailFriend.initialize.bind(EmailFriend));
+
+
+
+
+
+
+
+
+jQuery.noConflict();
+
+// Put all your jquery code in your document ready area to avoid conflict with prototype
+(function ($) {
+    
+    $("#productPrintMail").on("click", ".product-print", printPage);
+    
+    function printPage() {
+        window.open('?print', 'print', 'width=600,menubar=1');
+    }
+    
+})(jQuery);    
