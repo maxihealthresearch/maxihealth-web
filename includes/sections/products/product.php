@@ -34,11 +34,10 @@ if ($product=mysql_fetch_assoc($res)) {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <?php /*?><?php */?>
+<link rel="stylesheet" href="/css/product.css" type="text/css" media="screen">
+<div id="body" class="product-body">
 
-<div id="body" class="pl20">
-
-	<div id="breadcrumb">
-
+<p class="product-breadcrumb">
 		<a href="/" title="">Home</a> &gt;
 
 		<?php 
@@ -67,53 +66,29 @@ if ($product=mysql_fetch_assoc($res)) {
 
 		?>
 
-	</div>
+	</p>
 
- 	<div id="print_mail">
-
- 		<a href="#" class="print" onclick="window.open('?print', 'print', 'width=600,menubar=1')" title="Print this product">Print</a>
-
- 		<a href="#" id="email_friend_link" class="mail" title="Email a link to this product">Email</a></br></div>
-
+<ul id="productPrintMail"><li class="product-print">Print</li><li class="product-mail" id="email_friend_link">Email</li></ul>
  	
 
  	<h1><?php echo $product['name']?></h1>
 
  	
 
- 	<div class="ovfla">
 
-	 	<div id="product_photo">
+<table id="productTop">
+  <tr>
+    <td rowspan="2" class="product-top-photo">
+    <figure class="product-top-photo-wrap">
+    <img src="<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>.png?dateStamp=<?php echo time() ?>" alt="<?php echo $product['name'] ?>" />
+    </figure>
+    	 			<p class="product-top-enlarge"><a href="#" onclick="PhotoEnlarger.open('<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>_original.<?php echo $product['extension'] ?>')" >View Larger</a></p>
 
-	 		<div class="ph">
-
-	 			<img src="<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>.png?dateStamp=<?php echo time() ?>" alt="<?php echo $product['name'] ?>" />
-
-	 		</div>
-
-	 		<div class="vl">
-
-	 			<a href="#" onclick="PhotoEnlarger.open('<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>_original.<?php echo $product['extension'] ?>')" title="<?php echo $product['name'] ?>">View Larger</a>
-
-	 		</div>
-
-
-	 	</div>
-
-	 	<div id="product_top_right">
-
-	 		<p><?php echo $product['subtitle'], '</p><p>', $product['short_description'] ?></p>
-
-            
-
-   
-
-            
-
-            
-
-			<div class="forms">
-
+    </td>
+    <td colspan="2" class="product-top-subtitle"><p><strong><?php echo $product['subtitle'], '</strong><br>', $product['short_description'] ?></p></td>
+  </tr>
+  <tr>
+    <td class="product-top-forms-features">
 				<?php 
 
 				$res = query ('select pf.size, f.name, f.id '.
@@ -126,72 +101,14 @@ if ($product=mysql_fetch_assoc($res)) {
 
 				while ($row = mysql_fetch_assoc($res))
 
-					echo '<div class="form" style="background-image:url(', WEB_DIR_IMAGES_FORMS, $row['id'], '.png)">',
+					echo '<p class="product-top-forms" style="background-image:url(', WEB_DIR_IMAGES_FORMS, $row['id'], '.png)">',
 
-						$row['size'], ' ', $row['name'], '</div>';
-
-				?>
-
-			</div>
-
-			<div class="ovfla">
-
-				<?php 
-
-				$res = query ('select gr.name, gr.id '.
-
-					' from products_groups pg '.
-
-					' left join groups gr on (gr.id = pg.group_id) '.
-
-					' where pg.product_id = '.$product['id']);
-
-				if (mysql_num_rows($res) > 0) {
-
-					?>
-
-					<div class="also_a_great prb220">
-
-						<div class="t"></div>
-
-						<div class="m">
-
-							<strong>Also great for</strong>
-
-							<?php 
-
-							while ($row = mysql_fetch_assoc($res))
-
-								echo '<a href="/products/group/', $row['id'], '.html" title="', $row['name'], '">', $row['name'], '</a>';
-
-							?>
-
-						</div>
-
-						<div class="b"></div>
-
-					</div>
-
-					<?php 
-
-				} 
-
-				
-
-				if ($product['see_our_ad_link_url']) {
+						$row['size'], ' ', $row['name'], '</p>';
 
 				?>
 
-				<a href="<?php echo $product['see_our_ad_link_url'] ?>" title="See our ad" class="see_our_ad" target="_blank">
+<?php 
 
-					<img src="<?php echo $product['see_our_ad_link_url'] ?>" alt="See Our Ad" />
-                    <span class="btn white">See Our Ad</span>
-
-				</a>
-
-				<?php 
-
-				}
 
 				$res = query ('select f.name, f.id '.
 
@@ -203,7 +120,7 @@ if ($product=mysql_fetch_assoc($res)) {
 
 				if (mysql_num_rows($res) > 0) {
 
-					echo '<ul class="features">'; 
+					echo '<ul class="product-top-flavors">'; 
 
 					while ($row = mysql_fetch_assoc($res))
 
@@ -219,23 +136,75 @@ if ($product=mysql_fetch_assoc($res)) {
 
 					$benefits = explode("\n", $product['benefits']);
 
-					echo '<div class="benefits">Benefits<ul>';
+					echo '<p class="product-top-benefits-title">Benefits</p><ul class="product-top-benefits-list">';
 
 					foreach ($benefits as $row)
 
 						echo '<li>', $row, '</li>';
 
-					echo '</ul></div>';
+					echo '</ul>';
 
 				}
 
+				?>                
+    
+    </td>
+    <td rowspan="2" class="product-top-seead-alsogreat">
+				<?php 
+
+				$res = query ('select pa.ad_id '.
+
+					' from products_ads pa '.
+
+					' left join ads a on (a.id = pa.ad_id) '.
+
+					' where pa.product_id = '.$product['id']);
+
+$row = mysql_fetch_assoc($res);
+
+if ($row['ad_id']) {
+					echo '<figure class="product-top-seead">'.
+					'<a href="/images/ads/', $row['ad_id'], '_large.png" target="_blank"><img src="/images/ads/', $row['ad_id'], '.png" alt="See Our Ad" /></a>'.
+					'<a href="/images/ads/', $row['ad_id'], '_large.png" target="_blank" class="btn white">See Our Ad</a>'.
+					'</figure>';
+}
 				?>
+ 
+ 
+				<?php 
 
-			</div>
+				$res = query ('select gr.name, gr.id '.
 
-	 	</div>
+					' from products_groups pg '.
 
- 	</div>
+					' left join groups gr on (gr.id = pg.group_id) '.
+
+					' where pg.product_id = '.$product['id']);
+
+				if (mysql_num_rows($res) > 0) {
+
+
+							echo '<aside class="product-top-alsogreat"><p>Also a great</p>';
+
+
+							while ($row = mysql_fetch_assoc($res)) {
+
+								echo '<a class="product-top-alsogreat-node" href="/products/group/', $row['id'], '.html">', $row['name'], '</a>';
+							}
+							
+							echo '</aside>';
+
+				} 
+
+				
+
+
+				?>                
+    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="product-top-thumbs">
 <?php /*?>if product has more than one image - display thumb list <?php */?>
 			<?php
 				$image_file2 = DIR_IMAGES_PRODUCTS.$product['id'].'_2.png';
@@ -243,7 +212,7 @@ if ($product=mysql_fetch_assoc($res)) {
 				$image_file4 = DIR_IMAGES_PRODUCTS.$product['id'].'_4.png';
 
 if (file_exists($image_file2)) {
-					echo '<ul id="itemThumbList">';
+					echo '<ul class="product-top-thumblist">';
 					echo '<li title="', $product['image_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_t.png" alt="', $product['image_name'], '"></a></li>';
 					echo '<li title="', $product['image_2_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_t.png" alt="', $product['image_2_name'], '"></a></li>';
 }
@@ -256,14 +225,14 @@ if (file_exists($image_file4)) {
 if (file_exists($image_file2)) {
 					echo '</ul>';
 }
-			?>   
+			?>    
 
 
-<?php /*?><li><img src="/images/products/262_2_t.png"></li>
-<li><img src="/images/products/262_3_t.png"></li><?php */?>
-
-
-<section id="socialMediaWrpr">
+    
+    </td>
+  </tr>
+</table>
+<section class="product-social-wrapper">
 <div class="fb-like" data-send="false" data-width="290" data-show-faces="true"></div>
 
 <!-- Place this tag where you want the +1 button to render -->
@@ -281,7 +250,67 @@ if (file_exists($image_file2)) {
 <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </section>
- 	<div id="product_bottom">
+
+
+<div id="product_bottom">
+
+<?php 
+
+ 		$res = query ('select distinct pr.id, pr.name, pr.url, pr.subtitle, g.name as group_name, g.id as group_id '.
+
+ 			' from products_groups mygr '.
+
+ 			' left join products_groups gr on (gr.group_id = mygr.group_id and gr.product_id != mygr.product_id) '.
+
+ 			' inner join products pr on (pr.id = gr.product_id) '.
+
+ 			' left join groups g on (g.id = gr.group_id) '.
+
+ 			' where mygr.product_id = '.$product['id'].
+
+ 			' group by pr.id ');
+
+ 	
+
+ 		if (mysql_num_rows($res) > 0) {
+
+ 			echo '<div class="best_taken_with">',
+
+ 					'<strong class="ttl">For best results take with...</strong>';
+
+ 			while ($row = mysql_fetch_assoc($res)) {
+
+ 				echo '<div class="prb220">',
+
+ 						'<div class="t"></div>',
+
+ 						'<div class="m">',
+
+	 						'<a href="/products/', $row['url'], '.html" title="', $row['name'], '">',
+
+	 							'<img src="', WEB_DIR_IMAGES_PRODUCTS, $row['id'], '_t.png" alt="', $row['name'] , '" />',
+
+			 					'<strong class="name">', $row['name'], '</strong>',
+
+			 					'<span class="subt">', $row['subtitle'], '</span>',
+
+			 					'<a href="/products/group/', $row['group_id'], '.html" title="', $row['group_name'], '" class="cat">', $row['group_name'], '</a>',
+
+		 					'</a>',
+
+	 					'</div>',
+
+	 					'<div class="b"></div>',
+
+	 				'</div>';
+
+ 			}
+
+ 			echo '</div>';
+
+ 		}
+
+ 		?>
 
  		<div class="tabs_container">
 
@@ -352,9 +381,9 @@ echo '<p><strong>Directions:</strong> '. $product['directions'] . '</p>';
 
 
                                     
-
+<section class="product-tabs-supfacts">
 <?php echo $product['supplemental_facts']; ?>
-
+</section>
 
 
 <?php 
@@ -517,67 +546,11 @@ if ($total == 0) {
 
  		</div>
 
- 		<?php 
+ 
+ 	</div> <!-- product bottom end -->
 
- 		$res = query ('select distinct pr.id, pr.name, pr.url, pr.subtitle, g.name as group_name, g.id as group_id '.
 
- 			' from products_groups mygr '.
-
- 			' left join products_groups gr on (gr.group_id = mygr.group_id and gr.product_id != mygr.product_id) '.
-
- 			' inner join products pr on (pr.id = gr.product_id) '.
-
- 			' left join groups g on (g.id = gr.group_id) '.
-
- 			' where mygr.product_id = '.$product['id'].
-
- 			' group by pr.id ');
-
- 	
-
- 		if (mysql_num_rows($res) > 0) {
-
- 			echo '<div class="best_taken_with">',
-
- 					'<strong class="ttl">For best results taken with...</strong>';
-
- 			while ($row = mysql_fetch_assoc($res)) {
-
- 				echo '<div class="prb220">',
-
- 						'<div class="t"></div>',
-
- 						'<div class="m">',
-
-	 						'<a href="/products/', $row['url'], '.html" title="', $row['name'], '">',
-
-	 							'<img src="', WEB_DIR_IMAGES_PRODUCTS, $row['id'], '_t.png" alt="', $row['name'] , '" />',
-
-			 					'<strong class="name">', $row['name'], '</strong>',
-
-			 					'<span class="subt">', $row['subtitle'], '</span>',
-
-			 					'<a href="/products/group/', $row['group_id'], '.html" title="', $row['group_name'], '" class="cat">', $row['group_name'], '</a>',
-
-		 					'</a>',
-
-	 					'</div>',
-
-	 					'<div class="b"></div>',
-
-	 				'</div>';
-
- 			}
-
- 			echo '</div>';
-
- 		}
-
- 		?>
-
- 	</div>
-
- 	<div id="product_popup">
+<div id="product_popup">
 
  		<div class="t">
 
@@ -623,9 +596,10 @@ if ($total == 0) {
 
 		<div class="b"><div class="l"></div><div class="r"></div><div class="m"></div></div>
 
-	</div>
+	</div> 	
 
-</div>
+
+</div> <!-- product body end -->
 
 <div class="clear_both"></div>
 
