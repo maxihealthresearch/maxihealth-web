@@ -28,6 +28,12 @@ switch ($action) {
 		$benefits = form_escape($_POST['benefits']);
 		
 		$see_our_ad_link_url = form_escape($_POST['see_our_ad_link_url']);
+
+		$image_name = form_escape($_POST['image_name']);
+		$image_2_name = form_escape($_POST['image_2_name']);
+		$image_3_name = form_escape($_POST['image_3_name']);
+		$image_4_name = form_escape($_POST['image_4_name']);
+
 		//$date_added = mysql_real_escape_string($_POST['$date_added']);
 		$date_added = form_escape($_POST['date_added']);
 		
@@ -100,7 +106,7 @@ switch ($action) {
 			query ('replace into products (id, url, name, subtitle, short_description, '.
 					'benefits, description, directions, supplemental_facts, other_ingredients, '.
 					'other_facts, ingredients_search, meta_description, meta_keywords, '.
-					'see_our_ad_link_url, extension, search_data, date_added '.
+					'see_our_ad_link_url, image_name, image_2_name, image_3_name, image_4_name, extension, search_data, date_added '.
 					') values ('.
 					($id ? $id : 'null').','.
 					'"'.stripslashes($url).'",'.
@@ -117,6 +123,12 @@ switch ($action) {
 					'"'.stripslashes($meta_description).'",'.
 					'"'.stripslashes($meta_keywords).'",'.
 					'"'.$see_our_ad_link_url.'",'.
+
+					'"'.$image_name.'",'.
+					'"'.$image_2_name.'",'.
+					'"'.$image_3_name.'",'.
+					'"'.$image_4_name.'",'.
+
 					'"'.$extension.'",'.
 					'"'.$searchData.'",'.
 					'"'.$date_added.'"'.
