@@ -1,0 +1,204 @@
+.product-body {
+    margin-left: 268px;
+}
+.product-breadcrumb {
+    color: #2d4802;
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+#productPrintMail {
+    float: right;
+    font-size: 11px;
+    color: #3b3b3b;
+    cursor:pointer;
+    overflow:hidden;
+    margin:0;
+    padding:0;
+    list-style:none;
+    line-height: 11px;
+}
+#productPrintMail li {
+    float:left;
+    width:31px;
+    height:16px;
+    margin:0;
+    padding:0;
+}
+#productPrintMail .product-print {
+    padding-left: 20px;
+    background: url(/images/mail-print.png) top left no-repeat;
+    margin-right: 20px;
+}
+#productPrintMail .product-mail {
+    padding-left: 20px;
+    background: url(/images/mail-print.png) top left no-repeat;
+    background-position: left -19px;
+}
+#productTop {
+margin-bottom:20px;
+    width: 100%;
+}
+#productTop td {
+    padding:0;
+    margin:0;
+}
+#productTop .product-top-photo {
+width:234px;
+    vertical-align: top;
+}
+#productTop .product-top-photo-wrap {
+    border: 1px solid #dae5b9;
+    padding: 10px;
+    text-align: center;
+    width:212px;
+}
+
+#productTop .product-top-enlarge {
+padding-left: 16px;
+background: url(/images/view-larger.png) left no-repeat;
+font-size: 11px;
+color: #000;
+    margin: 10px 0 0 70px;
+}
+
+#productTop .product-top-subtitle {
+padding-left:20px;
+}
+#productTop .product-top-subtitle p {
+    padding: 0;
+    color: #2d4802;
+    margin:0;
+}
+#productTop .product-top-forms-features {
+    vertical-align: top;
+    padding: 0 0 10px 20px;
+}
+#productTop .product-top-forms {
+    padding: 0 0 0 25px;
+    background-position: left;
+    background-repeat: no-repeat;
+    font-family: Georgia, Arial, Verdana, sans-serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #2d4802;
+}
+#productTop .product-top-flavors {
+list-style-type: none;
+margin: 0 10px 0 0;
+padding: 0;
+}
+
+#productTop .product-top-flavors li {
+margin: 0 0 5px 0;
+padding: 0 0 0 20px;
+background-repeat: no-repeat;
+background-position: left;
+color: black;
+font-size: 12px;
+}
+
+#productTop .product-top-benefits-title {
+padding: 0 0 0 20px;
+margin: 10px 0 0 0;
+background: url(/images/benefits-icon.png) top left no-repeat;
+line-height: 18px;
+font-size: 12px;
+font-weight: bold;
+    color: #2d4802;    
+}
+
+#productTop .product-top-benefits-list {
+list-style-type: none;
+margin: 0 0 0 20px;
+padding: 0;
+color: black;
+font-size: 12px;    
+}
+
+#productTop .product-top-benefits-list li {
+margin: 0;
+padding: 0 0 0 8px;
+color: #000;
+background: url(/images/list-bullet.png) left 7px no-repeat;
+}
+
+#productTop .product-top-seead {
+height: 144px;
+display: block;
+overflow: hidden;
+position: relative;
+float: right;
+right: 50px;
+}
+#productTop .product-top-seead img {
+max-width: 102px;
+max-height: 142px;
+border: 1px solid #b3b3b3;
+}
+#productTop .product-top-seead .btn {
+display: block;
+top: 75px;
+left: 6px;
+position: absolute;
+}
+
+#productTop .product-top-seead-alsogreat {
+vertical-align:top;
+    width:206px;
+}
+#productTop .product-top-alsogreat {
+width: 204px;
+border-radius: 8px;
+background: #f8f8f8;
+border: 1px solid #ddd;
+float: right;
+margin-top: 20px;
+padding: 10px;   
+}
+#productTop .product-top-alsogreat p {
+text-align: center;
+display: block;
+color: #004922;
+font-size: 17px;
+margin: 0 0 0.5em 0;
+    font-weight:bold;
+}
+#productTop .product-top-alsogreat-node {
+display:block;
+    text-align: center;
+border-radius: 4px;
+background: #fdfbe4;
+border: 1px solid #f1d078;
+margin: 0.5em 0;
+text-decoration:none;
+}
+#productTop .product-top-alsogreat-node:hover {
+background: #f7e4ae;
+    border-color: #d96a27;
+}
+#productTop .product-top-thumbs {
+width: 500px;
+}
+
+#productTop .product-top-thumblist {
+list-style: none;
+display: block;
+overflow: hidden;
+margin: 0;
+padding: 0;
+}
+#productTop .product-top-thumblist li {
+float: left;
+padding: 7px 7px 7px 0;
+}
+#productTop .product-top-thumblist li a {
+width: 80px;
+height: 80px;
+border: 1px solid #dae5b9;
+display: block;
+text-align: center;
+}
+
+#supplemental_facts_tab .product-tabs-supfacts {
+display:block;overflow:hidden;
+}
