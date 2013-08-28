@@ -70,7 +70,15 @@ switch ($action) {
 				if ($value == 'on') $featuresIDs[] = intval($fID);
 			$featuresIDs = array_unique($featuresIDs);
 		}
-		
+
+		$adsIDs = array ();
+		if ($_POST['ads']) {
+			foreach ($_POST['ads'] as $adID => $value)
+				if ($value == 'on') $adsIDs[] = intval($adID);
+			$adsIDs = array_unique($adsIDs);
+		}
+
+
 		$groupsIDs = array ();
 		if ($_POST['groups']) {
 			foreach ($_POST['groups'] as $gID => $value)
@@ -138,6 +146,7 @@ switch ($action) {
 			} else {
 				query ('delete from products_categories where product_id = '.$id);
 				query ('delete from products_features where product_id = '.$id);
+				query ('delete from products_ads where product_id = '.$id);				
 				query ('delete from products_forms where product_id = '.$id);
 				query ('delete from products_groups where product_id = '.$id);
 			}
@@ -159,6 +168,13 @@ switch ($action) {
 				foreach ($featuresIDs as $cid)
 					$chunk[] = '('.$id.', '.$cid.')';
 				query ('insert into products_features (product_id, feature_id) values '.implode(',' ,$chunk));
+			}
+
+			if (count($adsIDs) > 0) {
+				$chunk = array();
+				foreach ($adsIDs as $cid)
+					$chunk[] = '('.$id.', '.$cid.')';
+				query ('insert into products_ads (product_id, ad_id) values '.implode(',' ,$chunk));
 			}
 			
 			if (count($groupsIDs) > 0) {
@@ -208,6 +224,7 @@ switch ($action) {
 		query ('delete from products where id = '.$id);
 		query ('delete from products_categories where product_id = '.$id);
 		query ('delete from products_features where product_id = '.$id);
+		query ('delete from products_ads where product_id = '.$id);		
 		query ('delete from products_forms where product_id = '.$id);
 		query ('delete from products_groups where product_id = '.$id);
 		break;

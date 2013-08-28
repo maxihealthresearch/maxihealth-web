@@ -73,7 +73,7 @@ group by p.id
 			' left join groups g on (g.id = prg.group_id) '.
 			' left join reviews r on (r.product_id = p.id and r.status="A") '.
 			' where  (c.id = '.$filter.' or c.parent_id = '.$filter.')'.
-			' group by p.ordr, p.id';
+			' group by p.id';
 } else {
 	$sql .= ' from products p '.
 			' left join products_categories pc on (pc.product_id = p.id) '.
@@ -82,7 +82,7 @@ group by p.id
 			' left join groups g on (g.id = prg.group_id) '.
 			' left join reviews r on (r.product_id = p.id and r.status="A") '.
 			' where true '.
-			' group by p.ordr, p.id'.
+			' group by p.id'.
 			' order by p.date_added DESC';
 }
 $page = intval($_GET['page']);
@@ -142,21 +142,10 @@ echo $total_rows_count.' items shown&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
 			<td><?php echo $r['categories'] ?></td>
 			<td><?php echo $r['groups'] ?></td>
 			<td><?php echo $r['reviews'] ?></td>
-			<td><?php echo $r['date_added'] ?></td>
+			<td><?php echo date('m/d/Y H:i:s',strtotime($r['date_added'])); ?></td>
 			<td><a href="edit.html?id=<?= $r['id'] ?>">edit</a>
             <a style="float:right;" href="index.html?action=delete&amp;id=<?= $r['id'] ?>" onclick="return confirmDelete()">delete</a>
             <br /><br />
-			New Produts Order: <?php /*?><?= $r['ordr'] ?><?php */?>
-			<?php 
-					if ($r['ordr'] > 1)
-						echo '<a href="?action=move&amp;id=', $r['id'], '&amp;dir=-1&amp;ordr=', $r['ordr'], '">&uarr;&uarr;&uarr;</a> ';
-					else
-						echo '&uarr;&uarr;&uarr; ';
-					if ($r['ordr'] < $total_rows_count)
-						echo '<a href="?action=move&amp;id=', $r['id'], '&amp;dir=1&amp;ordr=', $r['ordr'], '">&darr;&darr;&darr;</a> ';
-					else
-						echo '&darr;&darr;&darr; ';
-				?>
 			</td>
 		</tr>
 	<?php

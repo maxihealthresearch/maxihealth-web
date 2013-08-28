@@ -4,9 +4,15 @@ require_once DIR_WYSIWYG.'wysiwygPro.class.php';
 $id = intval($_GET['id']);
 if ($id > 0) {
 	$row = mysql_fetch_assoc(query ('select * from products where id = '.$id));
+
 	$res = query('select feature_id from products_features where product_id = '.$id);
 	while ($r = mysql_fetch_assoc($res))
 		$row['features'][$r['feature_id']] = true;
+
+	$res = query('select ad_id from products_ads where product_id = '.$id);
+	while ($r = mysql_fetch_assoc($res))
+		$row['ads'][$r['ad_id']] = true;
+
 	$res = query('select form_id, size from products_forms where product_id = '.$id);
 	while ($r = mysql_fetch_assoc($res)) { 
 		$row['forms'][$r['form_id']] = true;
@@ -19,7 +25,7 @@ if ($id > 0) {
 	while ($r = mysql_fetch_assoc($res))
 		$row['groups'][$r['group_id']] = true;
 } else
-	$row = array('id' => 0, 'features' => array(), 'forms' => array(), 'categories' => array());
+	$row = array('id' => 0, 'features' => array(), 'ads' => array(), 'forms' => array(), 'categories' => array());
 
 if (count($errors)) {
 	if ($errors['name']) echo '<p class="error">Please enter name of the product!</p>';
@@ -31,6 +37,36 @@ if (count($errors)) {
 }
 	
 ?>
+<style>
+.image-table td {
+padding:3px;	
+}
+.ad-list {
+display: block;
+list-style:none;
+overflow:hidden;
+}
+.ad-list li {
+float:left;	
+}
+
+.ad-list ul {
+list-style:none;
+display: block;
+overflow:hidden;
+}
+
+.ad-list ul li {
+float:left;	
+padding:3px;
+}
+
+.ad-list ul li:last-child {
+width:200px;	
+}
+
+</style>
+
 <h2><?php echo ($id ? 'Edit' : 'Add') ?> product</h2><br />
 
 <p>*Required Fields</p>
@@ -128,6 +164,21 @@ if (count($errors)) {
 					'</div>';
 		?>
 		</div></td></tr>
+        
+        
+	<tr><th>Ads:</th><td colspan="3"><ul class="ad-list">
+		<?php 
+		$res = query ('select id, name from ads');
+		while ($r = mysql_fetch_assoc($res))
+			echo '<li>',
+					'<ul><li><input type="checkbox" name="ads[', $r['id'], ']"',
+						($row['ads'][$r['id']] ? ' checked="checked"' : ''), ' /></li>',
+					'<li><img src="/images/ads/', $r['id'], '_smallthumb.png" /></li><li>', $r['name'], '</li></ul></li>';
+		?>
+		</ul></td></tr>
+        
+        
+            
 	<tr><th>Benefits:<br /><em>One per line!</em></th>
 		<td><textarea name="benefits"><?php echo $row['benefits']?></textarea></td></tr>
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -141,12 +192,18 @@ if (count($errors)) {
 
 		<em>Format year/month/day hour/min/sec/.  The newer the date - the higher the product is positioned on new products page. By default all new products have latest date.</em></td></tr>
 	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><th>*Product Images:</th><td><table><tr>
-    <td>Image 1:</td><td><input type="file" name="image" class="file" /></td>
-    <td>Image 2:</td><td><input type="file" name="image2" class="file" /></td>
-    <td>Image 3:</td><td><input type="file" name="image3" class="file" /></td>
-    <td>Image 4:</td><td><input type="file" name="image4" class="file" /></td>
+	<tr><th>*Product Images:</th><td><table class="image-table"><tr>
+    <td>Image&nbsp;1:</td><td><input type="file" name="image" class="file" /></td>
+    <td>Image&nbsp;2:</td><td><input type="file" name="image2" class="file" /></td>
+    <td>Image&nbsp;3:</td><td><input type="file" name="image3" class="file" /></td>
+    <td>Image&nbsp;4:</td><td><input type="file" name="image4" class="file" /></td>
     </tr>
+    <tr>
+        <td>Image&nbsp;Name:</td><td><input type="text" name="image_name" class="text" value="<?php echo $row['image_name']?>" /></td>   
+        <td>Image&nbsp;Name:</td><td><input type="text" name="image_2_name" class="text" value="<?php echo $row['image_2_name']?>" /></td>   
+        <td>Image&nbsp;Name:</td><td><input type="text" name="image_3_name" class="text" value="<?php echo $row['image_3_name']?>" /></td>   
+        <td>Image&nbsp;Name:</td><td><input type="text" name="image_4_name" class="text" value="<?php echo $row['image_4_name']?>" /></td>   
+</tr>
 	<?php if ($id > 0 ) {?>
 		<tr>
         <td>Current:</td><td style="padding-left: 3px;">
