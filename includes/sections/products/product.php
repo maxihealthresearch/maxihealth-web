@@ -68,7 +68,7 @@ if ($product=mysql_fetch_assoc($res)) {
 
 	</p>
 
-<ul id="productPrintMail"><li class="product-print">Print</li><li class="product-mail" id="email_friend_link">Email</li></ul>
+<ul id="productPrintMail"><li class="product-print">Print</li><li class="product-mail" id="email_friend_link" style="display:none">Email</li></ul>
  	
 
  	<h1><?php echo $product['name']?></h1>
@@ -76,14 +76,35 @@ if ($product=mysql_fetch_assoc($res)) {
  	
 
 
-<table id="productTop">
+<table id="productTop" data-productid="<?php echo $product['id'] ?>">
   <tr>
     <td rowspan="2" class="product-top-photo">
-    <figure class="product-top-photo-wrap">
-    <img src="<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>.png?dateStamp=<?php echo time() ?>" alt="<?php echo $product['name'] ?>" />
-    </figure>
-    	 			<p class="product-top-enlarge"><a href="#" onclick="PhotoEnlarger.open('<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>_original.<?php echo $product['extension'] ?>')" >View Larger</a></p>
+<figure class="product-top-photo-wrap" data-pictype="product">
+<?php 
+				$image_file2 = DIR_IMAGES_PRODUCTS.$product['id'].'_2.png';
+				$image_file3 = DIR_IMAGES_PRODUCTS.$product['id'].'_3.png';
+				$image_file4 = DIR_IMAGES_PRODUCTS.$product['id'].'_4.png';
+if (file_exists($image_file2)) {
+					echo '<div class="product-top-multi-zoom">'
+	.'<ul class="product-top-image-menu">'
+    .'<li class="product-prev-arrow-wrap js-product-arrow" data-direction="prev"><span class="js-product-prev-arrow">prev</span></li>'
+    .'<li class="product-zoom-icon-wrap js-largezoom"><span>enlarge</span></li>'
+    .'<li class="product-next-arrow-wrap js-product-arrow" data-direction="next"><span class="js-product-next-arrow">next</span></li>'
+  .'</ul>'
+  .'</div>';
+} else {
+	echo '<div class="product-top-single-zoom js-largezoom"><span>enlarge</span></div>';	
+}
+?>
+<div class="product-hero-pic-wrap"><img class="js-product-pic" src="<?php echo WEB_DIR_IMAGES_PRODUCTS, $product['id'] ?>.png?dateStamp=<?php echo time() ?>" data-imageid="<?php echo $product['id'] ?>" /></div>
+</figure>
 
+<?php
+
+if (file_exists($image_file2)) {
+    echo '<p class="product-top-caption">', $product['image_name'], '</p>';
+}
+?>
     </td>
     <td colspan="2" class="product-top-subtitle"><p><strong><?php echo $product['subtitle'], '</strong><br>', $product['short_description'] ?></p></td>
   </tr>
@@ -146,11 +167,10 @@ if ($product=mysql_fetch_assoc($res)) {
 
 				}
 
-				?>                
-    
+				?>    
     </td>
     <td rowspan="2" class="product-top-seead-alsogreat">
-				<?php 
+ 				<?php 
 
 				$res = query ('select pa.ad_id '.
 
@@ -163,14 +183,12 @@ if ($product=mysql_fetch_assoc($res)) {
 $row = mysql_fetch_assoc($res);
 
 if ($row['ad_id']) {
-					echo '<figure class="product-top-seead">'.
-					'<a href="/images/ads/', $row['ad_id'], '_large.png" target="_blank"><img src="/images/ads/', $row['ad_id'], '.png" alt="See Our Ad" /></a>'.
-					'<a href="/images/ads/', $row['ad_id'], '_large.png" target="_blank" class="btn white">See Our Ad</a>'.
+					echo '<figure class="product-top-seead" data-pictype="ad" data-adid="', $row['ad_id'], '">'.
+					'<img src="/images/ads/', $row['ad_id'], '.png" alt="See Our Ad" />'.
+					'<span class="btn white">See Our Ad</span>'.
 					'</figure>';
 }
 				?>
- 
- 
 				<?php 
 
 				$res = query ('select gr.name, gr.id '.
@@ -199,35 +217,32 @@ if ($row['ad_id']) {
 				
 
 
-				?>                
+				?>   				                
     
     </td>
   </tr>
   <tr>
     <td colspan="2" class="product-top-thumbs">
-<?php /*?>if product has more than one image - display thumb list <?php */?>
+<!--if product has more than one image - display thumb list--> 
+
 			<?php
-				$image_file2 = DIR_IMAGES_PRODUCTS.$product['id'].'_2.png';
-				$image_file3 = DIR_IMAGES_PRODUCTS.$product['id'].'_3.png';
-				$image_file4 = DIR_IMAGES_PRODUCTS.$product['id'].'_4.png';
+
 
 if (file_exists($image_file2)) {
 					echo '<ul class="product-top-thumblist">';
-					echo '<li title="', $product['image_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_t.png" alt="', $product['image_name'], '"></a></li>';
-					echo '<li title="', $product['image_2_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_t.png" alt="', $product['image_2_name'], '"></a></li>';
+					echo '<li title="', $product['image_name'], '" class="product-top-thumblist-selected"><span><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_t.png" alt="', $product['image_name'], '"></span></li>';
+					echo '<li title="', $product['image_2_name'], '"><span><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_2_t.png" alt="', $product['image_2_name'], '"></span></li>';
 }
 if (file_exists($image_file3)) {
-					echo '<li title="', $product['image_3_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_t.png" alt="', $product['image_3_name'], '"></a></li>';
+					echo '<li title="', $product['image_3_name'], '"><span><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_3_t.png" alt="', $product['image_3_name'], '"></span></li>';
 }
 if (file_exists($image_file4)) {
-					echo '<li title="', $product['image_4_name'], '"><a href="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_original.png" target="_blank"><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_t.png" alt="', $product['image_4_name'], '"></a></li>';
+					echo '<li title="', $product['image_4_name'], '"><span><img src="', WEB_DIR_IMAGES_PRODUCTS, $product['id'], '_4_t.png" alt="', $product['image_4_name'], '"></span></li>';
 }
 if (file_exists($image_file2)) {
 					echo '</ul>';
 }
-			?>    
-
-
+			?> 
     
     </td>
   </tr>
