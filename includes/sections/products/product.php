@@ -137,7 +137,7 @@ if (file_exists($image_file2)) {
 
 					' left join n_features f on (f.id = pf.feature_id) '.
 
-					' where product_id = '.$product['id']);
+					' where f.name is not null and product_id = '.$product['id']);
 
 				if (mysql_num_rows($res) > 0) {
 
@@ -151,7 +151,27 @@ if (file_exists($image_file2)) {
 
 				}
 
-				
+
+				$res = query ('select f.name, f.id '.
+
+					' from products_flavors pf '.
+
+					' left join n_flavors f on (f.id = pf.flavor_id) '.
+
+					' where product_id = '.$product['id'].' order by f.name ASC');
+
+				if (mysql_num_rows($res) > 0) {
+
+					echo '<ul class="product-top-flavors">'; 
+
+					while ($row = mysql_fetch_assoc($res))
+
+						echo '<li style="background-image:url(/images/flavors/', $row['id'], '.png)">', $row['name'], '</li>';
+
+					echo '</ul>';
+
+				}
+
 
 				if ($product['benefits']) {
 
