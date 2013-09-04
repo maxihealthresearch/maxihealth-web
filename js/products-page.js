@@ -350,6 +350,11 @@ Event.observe(window, 'load', EmailFriend.initialize.bind(EmailFriend));
 
 
 
+
+
+
+
+
 jQuery.noConflict();
 
 // Put all your jquery code in your document ready area to avoid conflict with prototype
@@ -466,20 +471,69 @@ jQuery.noConflict();
             $modalWindow = $("#adsModalContainer"),
             $overlay = $("#adsModalOverlay"),
             $productID = $("#productTop").data("productid"),
-            modalURL = "/includes/boxes/modal-product-gallery.php?productid=";
+            $bigImage = $("#adsModalContainer").find(".modal-gallery-product"),
+            modalURL = "/includes/boxes/modal-product-gallery.php?productid=",
+            imageList = [],
+            selectedImageID,
+            prev_id,
+            next_id;
+
+        function setImageListValues(imageid) {
+            imageList.length = 0;
+            var $modalGalleryList = $modalWindow.find(".modal-gallery-list li");
+            for (i = 0; i < $modalGalleryList.length; i++) {
+                var photoid = $modalGalleryList.eq(i).data("photoid");
+                imageList.push(photoid);
+            }
+
+            selectedImageID = imageid.toString();
+        }
 
         function setLocHash() {
             location.hash = "product-gallery";
         }
 
         function transition(pictype, imageid) {
-            $modalWindow.load($("body").data("modal_product_gallery_url") + $productID + "&imageid=" + imageid + "&pictype=" + pictype);
+            var modalURLWithParams = $("body").data("modal_product_gallery_url") + $productID + "&imageid=" + imageid + "&pictype=" + pictype;
+            $modalWindow.load(modalURLWithParams);
 
             $bgElements.fadeOut('fast', function () {
                 $modalWindow.fadeIn('slow', function () {
                     $overlay.show();
+                    setImageListValues(imageid);
                 });
             });
+        }
+
+
+        function navigate(e) {
+            e.preventDefault();
+            var $direction = $(this).data("navigate");
+            var selectedImageIndex = imageList.indexOf(selectedImageID);
+            var lastImageIndex = imageList.length - 1;
+            prev_id = selectedImageIndex !== 0 ? imageList[selectedImageIndex - 1] : imageList[lastImageIndex];
+            next_id = selectedImageIndex !== lastImageIndex ? imageList[selectedImageIndex + 1] : imageList[0];
+            selectedImageID = $direction === 'next' ? next_id : prev_id;
+            switchImage();
+
+            var $modalGalleryList = $modalWindow.find(".modal-gallery-list li");
+            $modalGalleryList.removeClass("modal-gallery-node-selected");
+            $modalGalleryList.filter('[data-photoid=' + selectedImageID + ']').addClass("modal-gallery-node-selected");
+        }
+
+        function highlightNavNode() {
+            if (!$(this).hasClass("modal-gallery-node-selected")) {
+                $(this).parent().find("li").removeClass("modal-gallery-node-selected");
+                $(this).addClass("modal-gallery-node-selected");
+                selectedImageID = $(this).data("photoid");
+                switchImage();
+            }
+        }
+
+        function switchImage() {
+            $modalWindow.find(".modal-gallery-product img").remove();
+            $modalWindow.find(".modal-gallery-product").append("<img src='/images/products/" + selectedImageID + "_original.png'>");
+
         }
 
         function showGallery() {
@@ -504,7 +558,9 @@ jQuery.noConflict();
 
         return {
             show_gallery: showGallery,
-            check_gallery_hash: checkGalleryHash
+            check_gallery_hash: checkGalleryHash,
+            navigate: navigate,
+            highlight_nav_node: highlightNavNode
         };
 
     })();
@@ -512,7 +568,9 @@ jQuery.noConflict();
 
     var productPage = (function () {
 
-        var $productTop = $("#productTop");
+        var $productTop = $("#productTop"),
+            $modalWindow = $("#adsModalContainer");
+
 
         $("body").data("imageid", $(".js-product-pic").data("imageid"))
             .data("modal_product_gallery_url", "/includes/boxes/modal-product-gallery.php?productid=");
@@ -527,6 +585,8 @@ jQuery.noConflict();
             $productTop.find(".js-product-arrow").on("click", imageSwitcher.switch_image);
             $productTop.find(".js-largezoom").on("click", Gallery.show_gallery);
             $productTop.find(".product-top-seead").on("click", Gallery.show_gallery);
+            $modalWindow.on("click", ".modal-gallery-arrow", Gallery.navigate);
+            $modalWindow.on("click", ".modal-gallery-list li", Gallery.highlight_nav_node);
             $(window).on("load", Gallery.check_gallery_hash);
         }
 

@@ -25,18 +25,23 @@ window.$zopim || (function (d, s) {
 
 //Optional to toggle from chat to send message
 $zopim(function () {
+
+    function change_chat_img(status) {
+        var img = document.getElementById('chat_img');
+
+        if (status === 'online') {
+            img.src = '/images/chat-live-button.png';
+        } else if (status === 'away' || status === 'offline') {
+            img.src = '/images/send-msg-btn.png';
+        } else {
+            img.src = '/images/send-msg-btn.png';
+        }
+    }
+
     $zopim.livechat.setOnStatus(change_chat_img);
 });
 
-function change_chat_img(status) {
-    var img = document.getElementById('chat_img');
-    if (status == 'online')
-        img.src = '/images/chat-live-button.png';
-    else if (status == 'away')
-        img.src = '/images/send-msg-btn.png';
-    else if (stats === 'offline')
-        img.src = '/images/send-msg-btn.png';
-}
+
 //Zopim end
 
 var App = {
@@ -51,7 +56,23 @@ Modernizr.load({
 jQuery.noConflict();
 
 // Put all your jquery code in your document ready area to avoid conflict with prototype
+
+
+
 (function ($) {
+
+    $.closeModalGallery = function (event) {
+        event.preventDefault();
+
+    };
+
+    $.fn.closeModalGallery = function () {
+
+
+        $(this).on("click", $.sayHello);
+    };
+
+
 
     var SidebarSlider = (function () {
 
@@ -220,7 +241,8 @@ jQuery.noConflict();
 
 
         return {
-            init: init
+            init: init,
+            close_modal: closeModal
         };
     })();
 
@@ -310,11 +332,20 @@ jQuery.noConflict();
         };
     })();
 
+    var Main = {
+        init: function () {
+            this.bindEvents();
+            StoresDropdown.init();
+            SidebarSlider.init();
+            Album.init();
+            MaxiAutocomplete.init();
+        },
+        bindEvents: function () {
+            $("#adsModalContainer").on("click", '.js-modal-close', Album.close_modal);
+        }
+    };
 
-    StoresDropdown.init();
-    SidebarSlider.init();
-    Album.init();
-    MaxiAutocomplete.init();
+    Main.init();
 
 
 
